@@ -1,0 +1,104 @@
+/* 다온한끼 디자인 토큰 — DESIGN.md 기준. 값은 이 파일에서만 정의한다. */
+:root {
+  /* Core */
+  --color-primary: #1c1c1e;
+  --color-on-primary: #ffffff;
+  --color-charcoal: #2c2c34;
+
+  /* Brand — Turmeric */
+  --color-brand-turmeric: #F5B925;  /* 로고 마크, 구매 버튼, 프로모 배지 전용 */
+  --color-turmeric-deep: #E09A00;   /* 장식 전용 — 텍스트 금지 */
+  --color-turmeric-text: #A86F00;
+  --color-turmeric-light: #FFF4C4;
+  --color-turmeric-dark: #6B5310;
+
+  /* Sub — Leaf green */
+  --color-leaf: #2F7D4F;
+  --color-leaf-light: #DDF1E3;
+  --color-leaf-dark: #1E5434;
+
+  /* Product tints */
+  --color-product-turmeric: #FFE58A;
+  --color-product-turmeric-ink: #6B5310;
+  --color-product-mint: #CFF5EA;
+  --color-product-mint-ink: #11604F;
+  --color-product-chlorella: #D9EFC2;
+  --color-product-chlorella-ink: #3D5A1A;
+  --color-product-rice: #F5EEDC;
+  --color-product-rice-ink: #5E4B2A;
+
+  /* Surface */
+  --color-canvas: #ffffff;
+  --color-surface: #f7f8fa;
+  --color-surface-soft: #fafbfc;
+  --color-hairline: #e0e2e8;
+  --color-hairline-soft: #eef0f3;
+  --color-hairline-strong: #c7cad5;
+
+  /* Text */
+  --color-ink: #1c1c1e;
+  --color-body-strong: #2c2c34;
+  --color-slate: #555a6a;
+  --color-steel: #6b6f7e;
+  --color-placeholder: #8e91a0;     /* placeholder·미확정 값 표시 전용 */
+  --color-on-dark: #ffffff;
+  --color-on-dark-muted: #a5a8b5;
+
+  /* Typography */
+  --font-sans: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  --text-hero-display: clamp(40px, 6.4vw, 84px);
+  --text-display-lg: clamp(32px, 4vw, 52px);
+  --text-heading-1: clamp(30px, 3.6vw, 48px);
+  --text-heading-2: 32px;
+  --text-heading-3: 24px;
+  --text-heading-4: 19px;
+  --text-subtitle: 19px;
+  --text-body-md: 16px;
+  --text-body-sm: 15px;
+  --text-caption: 13px;
+  --text-step-number: 44px;
+
+  /* Rounded */
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-xxl: 20px;
+  --rounded-xxxl: 28px;
+  --rounded-feature: 32px;
+  --rounded-full: 9999px;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-14: 56px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --space-30: 120px;
+  --section-gap: 96px;
+  --gutter: 24px;
+  --container: 1280px;
+  --touch-min: 44px;
+
+  /* Elevation */
+  --shadow-photo: rgba(5, 0, 56, 0.08) 0px 12px 32px -4px;
+  --shadow-modal: rgba(5, 0, 56, 0.12) 0px 16px 48px -8px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --gutter: 16px;
+    --section-gap: 72px;
+  }
+}

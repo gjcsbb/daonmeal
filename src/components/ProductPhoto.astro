@@ -1,0 +1,47 @@
+---
+// 실제 제품 사진이 들어오기 전 자리표시. src를 넘기면 사진을 쓴다.
+import type { Tint } from '../data/site';
+import Icon from './Icon.astro';
+interface Props {
+  tint: Tint;
+  name: string;
+  src?: string;
+  class?: string;
+}
+const { tint, name, src, class: className } = Astro.props;
+---
+<div class:list={['product-photo', `tint-${tint}`, className]}>
+  {src ? (
+    <img src={src} alt={`${name} 제품 사진`} loading="lazy" decoding="async" />
+  ) : (
+    <div class="product-photo__placeholder" role="img" aria-label={`${name} 사진 자리 (실제 사진으로 교체 예정)`}>
+      <Icon name="bowl" size={56} />
+      <span>[{name} 사진]</span>
+    </div>
+  )}
+</div>
+
+<style>
+  .product-photo {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--rounded-xxl);
+    background: rgba(255, 255, 255, 0.55);
+  }
+  .product-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .product-photo__placeholder {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: var(--space-2);
+    height: 100%;
+    color: var(--tint-ink);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+  }
+</style>

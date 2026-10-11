@@ -1,0 +1,41 @@
+---
+interface Props { title: string; subtitle?: string; headingId?: string }
+const { title, subtitle, headingId = 'cta-title' } = Astro.props;
+---
+<section class="section" aria-labelledby={headingId}>
+  <div class="container">
+    <div class="cta-banner">
+      <h2 class="t-display-lg" id={headingId}>{title}</h2>
+      {subtitle && <p class="cta-banner__sub">{subtitle}</p>}
+      <div class="cta-banner__actions"><slot /></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-banner {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-5);
+    padding: 72px 32px;
+    border-radius: var(--rounded-feature);
+    background: var(--color-primary);
+    color: var(--color-on-dark);
+    text-align: center;
+  }
+  .cta-banner__sub {
+    max-width: 560px;
+    font-size: var(--text-subtitle);
+    color: var(--color-on-dark-muted);
+  }
+  .cta-banner__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+  @media (max-width: 767px) {
+    .cta-banner { padding: 56px 20px; }
+  }
+</style>

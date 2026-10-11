@@ -1,0 +1,26 @@
+---
+interface Props {
+  variant?: 'trust' | 'origin' | 'promo' | 'plain';
+  class?: string;
+}
+const { variant = 'trust', class: className } = Astro.props;
+---
+<span class:list={['badge', `badge--${variant}`, className]}><slot /></span>
+
+<style is:global>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: var(--rounded-full);
+    font-size: 13px;
+    font-weight: var(--weight-semibold);
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+  .badge--trust { background: var(--color-leaf-light); color: var(--color-leaf-dark); }
+  .badge--origin { background: var(--color-turmeric-light); color: var(--color-turmeric-dark); }
+  .badge--promo { background: var(--color-brand-turmeric); color: var(--color-primary); }
+  .badge--plain { background: var(--color-canvas); color: var(--color-ink); }
+</style>

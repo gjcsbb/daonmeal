@@ -1,0 +1,106 @@
+---
+import { SITE, PRODUCTS } from '../data/site';
+import Logo from './Logo.astro';
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <Logo onDark />
+        <p class="footer__message">{SITE.message}</p>
+        <address>
+          {SITE.company}<br />
+          {SITE.address}<br />
+          전화 <a href={`tel:${SITE.phone.replace(/-/g, '')}`}>{SITE.phone}</a><br />
+          이메일 <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        </address>
+      </div>
+
+      <nav aria-labelledby="footer-products">
+        <h2 class="footer__title" id="footer-products">제품</h2>
+        <ul role="list">
+          {PRODUCTS.map((p) => <li><a href={`/products/${p.slug}`}>{p.name}</a></li>)}
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="footer-brand">
+        <h2 class="footer__title" id="footer-brand">브랜드</h2>
+        <ul role="list">
+          <li><a href="/story">브랜드 스토리</a></li>
+          <li><a href="/process">안심 공정</a></li>
+          <li><a href="/guide">식단 가이드</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="footer-b2b">
+        <h2 class="footer__title" id="footer-b2b">B2B·문의</h2>
+        <ul role="list">
+          <li><a href="/b2b">납품·OEM 문의</a></li>
+          <li><a href="/b2b#brochure">소개서 다운로드</a></li>
+          <li><a href={`mailto:${SITE.email}`}>이메일 문의</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="footer__bottom">
+      <p>
+        상호 {SITE.company} · 대표 <span class="footer__tbd">{SITE.ceo}</span> · 사업자등록번호 <span class="footer__tbd">{SITE.bizNumber}</span>
+      </p>
+      <p>
+        <a href="/privacy">개인정보 처리방침</a>
+        <span aria-hidden="true"> · </span>
+        © {year} {SITE.company}. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: var(--section-gap);
+    padding-block: var(--space-16) var(--space-10);
+    background: var(--color-primary);
+    color: var(--color-on-dark-muted);
+    font-size: var(--text-body-sm);
+  }
+  .footer a { color: var(--color-on-dark-muted); text-underline-offset: 4px; }
+  .footer a:hover { color: var(--color-on-dark); }
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 2fr repeat(3, 1fr);
+    gap: var(--space-10) var(--space-8);
+  }
+  .footer__brand { display: grid; gap: var(--space-4); align-content: start; }
+  .footer__message { color: var(--color-brand-turmeric); font-weight: var(--weight-medium); }
+  address { font-style: normal; line-height: 1.8; }
+  .footer__title {
+    margin-bottom: var(--space-3);
+    color: var(--color-on-dark);
+    font-size: 15px;
+  }
+  .footer ul { display: grid; gap: 2px; margin: 0; }
+  .footer ul a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    text-decoration: none;
+  }
+  .footer ul a:hover { text-decoration: underline; }
+  .footer__bottom {
+    display: grid;
+    gap: var(--space-2);
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-charcoal);
+    font-size: var(--text-caption);
+  }
+  .footer__tbd { color: var(--color-on-dark-muted); font-style: italic; }
+  @media (max-width: 1023px) {
+    .footer__grid { grid-template-columns: repeat(3, 1fr); }
+    .footer__brand { grid-column: 1 / -1; }
+  }
+  @media (max-width: 599px) {
+    .footer__grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>

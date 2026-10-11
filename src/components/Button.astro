@@ -1,0 +1,46 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'buy' | 'secondary' | 'on-dark';
+  type?: 'button' | 'submit';
+  external?: boolean;
+  class?: string;
+  [key: string]: unknown;
+}
+const { href, variant = 'primary', type = 'button', external = false, class: className, ...rest } = Astro.props;
+const cls = ['btn', `btn--${variant}`, className].filter(Boolean).join(' ');
+const ext = external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+---
+{href ? (
+  <a href={href} class={cls} {...ext} {...rest}><slot /></a>
+) : (
+  <button type={type} class={cls} {...rest}><slot /></button>
+)}
+
+<style is:global>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: var(--touch-min);
+    padding: 14px 28px;
+    border: 1px solid transparent;
+    border-radius: var(--rounded-full);
+    font-size: 15px;
+    font-weight: var(--weight-medium);
+    line-height: 1.3;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+  .btn--primary { background: var(--color-primary); color: var(--color-on-primary); }
+  .btn--primary:hover { background: var(--color-charcoal); }
+  .btn--buy { background: var(--color-brand-turmeric); color: var(--color-primary); font-weight: var(--weight-semibold); }
+  .btn--buy:hover { background: #e8ab14; }
+  .btn--secondary { background: transparent; color: var(--color-ink); border-color: var(--color-hairline-strong); }
+  .btn--secondary:hover { border-color: var(--color-ink); }
+  .btn--on-dark { background: var(--color-on-dark); color: var(--color-primary); }
+  .btn--on-dark:hover { background: var(--color-hairline-soft); }
+</style>

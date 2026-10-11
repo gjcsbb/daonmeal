@@ -1,0 +1,55 @@
+---
+interface Props { question: string; id?: string; open?: boolean }
+const { question, id, open = false } = Astro.props;
+---
+<details class="faq-item" id={id} open={open}>
+  <summary>
+    <span>{question}</span>
+    <span class="faq-item__icon" aria-hidden="true"></span>
+  </summary>
+  <div class="faq-item__answer"><slot /></div>
+</details>
+
+<style>
+  .faq-item { border-bottom: 1px solid var(--color-hairline); }
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    min-height: var(--touch-min);
+    padding: 22px 4px;
+    font-size: 18px;
+    font-weight: var(--weight-medium);
+    line-height: 1.5;
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker { display: none; }
+  .faq-item__icon {
+    position: relative;
+    flex: none;
+    width: 16px;
+    height: 16px;
+  }
+  .faq-item__icon::before,
+  .faq-item__icon::after {
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: 0;
+    width: 16px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--color-ink);
+    transition: transform 0.2s ease;
+  }
+  .faq-item__icon::after { transform: rotate(90deg); }
+  .faq-item[open] .faq-item__icon::after { transform: rotate(0deg); }
+  .faq-item__answer {
+    padding: 0 4px 24px;
+    color: var(--color-slate);
+    max-width: 760px;
+  }
+  .faq-item__answer :global(p + p) { margin-top: var(--space-2); }
+</style>

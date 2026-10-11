@@ -1,0 +1,7 @@
+---
+// 값이 "[ ]" 미확정이면 placeholder 색으로 표시한다.
+import { isTbd } from '../data/site';
+interface Props { value: string }
+const { value } = Astro.props;
+---
+{isTbd(value) ? <span class="tbd">{value}</span> : value}

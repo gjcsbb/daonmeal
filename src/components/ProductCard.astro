@@ -1,0 +1,60 @@
+---
+import type { Product } from '../data/site';
+import ProductPhoto from './ProductPhoto.astro';
+interface Props { product: Product; headingLevel?: 'h3' | 'h4' }
+const { product, headingLevel: H = 'h3' } = Astro.props;
+---
+<article class={`product-card tint-${product.tint}`} data-tag={product.tag}>
+  <span class="product-card__tag">{product.tag}</span>
+  <ProductPhoto tint={product.tint} name={product.name} />
+  <div class="product-card__body">
+    <H class="t-heading-3">
+      <a href={`/products/${product.slug}`} class="product-card__link">{product.name}</a>
+    </H>
+    <p class="t-body-sm">{product.summary}</p>
+  </div>
+  <span class="product-card__more" aria-hidden="true">자세히 보기 →</span>
+</article>
+
+<style>
+  .product-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding: 28px;
+    border-radius: var(--rounded-xxxl);
+    background: var(--tint-bg);
+    color: var(--tint-ink);
+  }
+  .product-card[hidden] { display: none; }
+  .product-card__tag {
+    align-self: flex-start;
+    padding: 4px 12px;
+    border-radius: var(--rounded-full);
+    background: var(--color-canvas);
+    font-size: 13px;
+    font-weight: var(--weight-semibold);
+    line-height: 1.4;
+  }
+  .product-card__body { display: grid; gap: var(--space-2); flex: 1; }
+  .product-card__body h3, .product-card__body h4 { color: var(--color-ink); }
+  .product-card__link { text-decoration: none; }
+  /* 카드 전체를 클릭 영역으로 */
+  .product-card__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+  .product-card__link:focus-visible { outline: none; }
+  .product-card:has(.product-card__link:focus-visible) {
+    outline: 2px solid var(--color-leaf);
+    outline-offset: 3px;
+  }
+  .product-card__more {
+    font-weight: var(--weight-semibold);
+    font-size: 15px;
+  }
+  .product-card:hover .product-card__more { text-decoration: underline; text-underline-offset: 4px; }
+</style>

@@ -1,0 +1,139 @@
+---
+import { NAV, purchaseHref } from '../data/site';
+import Logo from './Logo.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => !href.includes('#') && path === href;
+---
+<header class="nav">
+  <div class="container nav__inner">
+    <Logo />
+
+    <nav class="nav__menu" id="site-menu" aria-label="주 메뉴">
+      <ul role="list">
+        {NAV.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class:list={['nav__link', { 'nav__link--muted': item.muted }]}
+              aria-current={isCurrent(item.href) ? 'page' : undefined}
+            >{item.label}</a>
+          </li>
+        ))}
+      </ul>
+      <Button href={purchaseHref()} variant="primary" class="nav__cta nav__cta--mobile">구매처 보기</Button>
+    </nav>
+
+    <div class="nav__right">
+      <Button href={purchaseHref()} variant="primary" class="nav__cta">구매처 보기</Button>
+      <button
+        type="button"
+        class="nav__toggle"
+        aria-controls="site-menu"
+        aria-expanded="false"
+        aria-label="메뉴 열기"
+      >
+        <span class="nav__toggle-open"><Icon name="menu" /></span>
+        <span class="nav__toggle-close"><Icon name="close" /></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.nav__toggle');
+  const menu = document.getElementById('site-menu');
+  if (toggle && menu) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
+      menu.classList.toggle('is-open', open);
+    };
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    menu.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) setOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu.classList.contains('is-open')) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+  }
+</script>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--color-canvas);
+    border-bottom: 1px solid var(--color-hairline-soft);
+  }
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    min-height: 64px;
+  }
+  .nav__menu ul {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin: 0;
+  }
+  .nav__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--touch-min);
+    padding-inline: 14px;
+    border-radius: var(--rounded-full);
+    color: var(--color-ink);
+    font-size: 15px;
+    font-weight: var(--weight-medium);
+    text-decoration: none;
+  }
+  .nav__link:hover { background: var(--color-surface); }
+  .nav__link--muted { color: var(--color-steel); }
+  .nav__link[aria-current='page'] { color: var(--color-leaf); }
+  .nav__right { display: flex; align-items: center; gap: var(--space-2); }
+  .nav__toggle {
+    display: none;
+    place-items: center;
+    width: var(--touch-min);
+    height: var(--touch-min);
+    padding: 0;
+    border: 0;
+    border-radius: var(--rounded-full);
+    background: transparent;
+    color: var(--color-ink);
+    cursor: pointer;
+  }
+  .nav__toggle-close { display: none; }
+  .nav__toggle[aria-expanded='true'] .nav__toggle-open { display: none; }
+  .nav__toggle[aria-expanded='true'] .nav__toggle-close { display: block; }
+  :global(.nav__cta--mobile) { display: none !important; }
+
+  @media (max-width: 1023px) {
+    .nav__toggle { display: grid; }
+    :global(.nav__right .nav__cta) { display: none !important; }
+    .nav__menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      padding: var(--space-4) var(--gutter) var(--space-6);
+      background: var(--color-canvas);
+      border-bottom: 1px solid var(--color-hairline-soft);
+      box-shadow: var(--shadow-modal);
+    }
+    .nav__menu.is-open { display: grid; gap: var(--space-4); }
+    .nav__menu ul { flex-direction: column; align-items: stretch; }
+    .nav__link { width: 100%; font-size: 17px; }
+    :global(.nav__cta--mobile) { display: inline-flex !important; width: 100%; }
+  }
+</style>

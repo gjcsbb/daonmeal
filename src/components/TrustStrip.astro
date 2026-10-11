@@ -1,0 +1,53 @@
+---
+import Icon from './Icon.astro';
+import type { Props as IconProps } from './Icon.astro';
+interface Item { icon: IconProps['name']; label: string; detail: string }
+const items: Item[] = [
+  { icon: 'shield', label: '레토르트 HACCP', detail: 'HACCP 인증 시설 생산' },
+  { icon: 'leaf', label: '무농약 인증 쌀', detail: '가평 친환경 원료' },
+  { icon: 'scan', label: '멸균·금속검출', detail: '레토르트 안전 공정' },
+  { icon: 'microwave', label: '전자레인지 2분', detail: '간편하게 완성' },
+];
+---
+<section class="trust-strip" aria-label="다온한끼 안심 근거">
+  <div class="container">
+  <ul role="list" class="trust-strip__list">
+    {items.map((item) => (
+      <li class="trust-strip__item">
+        <span class="trust-strip__icon"><Icon name={item.icon} size={20} /></span>
+        <span>
+          <strong>{item.label}</strong>
+          <span class="t-caption">{item.detail}</span>
+        </span>
+      </li>
+    ))}
+  </ul>
+  </div>
+</section>
+
+<style>
+  .trust-strip {
+    background: var(--color-surface-soft);
+    border-block: 1px solid var(--color-hairline-soft);
+  }
+  .trust-strip__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: var(--space-4) var(--space-6);
+    margin: 0;
+    padding-block: var(--space-8);
+  }
+  .trust-strip__item { display: flex; align-items: center; gap: var(--space-3); }
+  .trust-strip__item > span:last-child { display: grid; }
+  .trust-strip__item strong { font-weight: var(--weight-semibold); font-size: 15px; line-height: 1.4; }
+  .trust-strip__icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--rounded-full);
+    background: var(--color-leaf-light);
+    color: var(--color-leaf-dark);
+  }
+</style>

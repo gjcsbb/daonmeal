@@ -1,0 +1,344 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Badge from '../components/Badge.astro';
+import Button from '../components/Button.astro';
+import ProductPhoto from '../components/ProductPhoto.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ProductCard from '../components/ProductCard.astro';
+import StepCard from '../components/StepCard.astro';
+import CompareTable from '../components/CompareTable.astro';
+import FaqItem from '../components/FaqItem.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import Icon from '../components/Icon.astro';
+import { SITE, PRODUCTS, purchaseHref } from '../data/site';
+
+const tags = ['전체', ...PRODUCTS.map((p) => p.tag)];
+---
+<BaseLayout>
+  <!-- 히어로 -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <div class="hero__badges">
+          <Badge variant="origin">가평 친환경 원료</Badge>
+          <Badge variant="trust">레토르트 HACCP</Badge>
+        </div>
+        <h1 class="t-hero-display" id="hero-title">
+          가평의 들에서 지은,<br />내 몸에 맞는 한 끼
+        </h1>
+        <p class="t-subtitle hero__lead">
+          강황, 저당, 저탄수, 순(純)쌀. 건강 목적에 맞게 고르는 다온한끼 건강밥 4종.
+          좋은 원료와 정직한 공정으로 짓고, 전자레인지 2분이면 완성됩니다.
+        </p>
+        <div class="hero__actions">
+          <Button href="#products" variant="primary">내게 맞는 밥 고르기</Button>
+          <Button href="/process" variant="secondary">안심 공정 보기</Button>
+        </div>
+      </div>
+
+      <ul class="hero__photos" role="list" aria-label="다온한끼 제품 4종">
+        {PRODUCTS.map((p) => (
+          <li class={`hero__photo tint-${p.tint}`}>
+            <a href={`/products/${p.slug}`} class="hero__photo-link">
+              <ProductPhoto tint={p.tint} name={p.name} />
+              <span class="hero__photo-name">{p.name}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <TrustStrip />
+
+  <!-- 목적별 제품 -->
+  <section class="section" id="products" aria-labelledby="products-title">
+    <div class="container">
+      <SectionHeader
+        id="products-title"
+        eyebrow="Products"
+        title="내 몸에 맞는 한 끼를 고르세요"
+        subtitle="식단의 목적에 따라 원료를 달리 담았습니다. 목적을 고르면 맞는 밥을 보여드려요."
+      />
+
+      <div class="filter" role="group" aria-label="목적별로 제품 보기">
+        {tags.map((tag, i) => (
+          <button type="button" class="pill-tab" data-filter={tag} aria-pressed={i === 0 ? 'true' : 'false'}>
+            {tag}
+          </button>
+        ))}
+      </div>
+      <p class="visually-hidden" aria-live="polite" id="filter-status"></p>
+
+      <div class="grid-cards products-grid">
+        {PRODUCTS.map((p) => <ProductCard product={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- 원료에서 식탁까지 -->
+  <section class="section" aria-labelledby="process-title">
+    <div class="container">
+      <SectionHeader
+        id="process-title"
+        eyebrow="From field to table"
+        title="원료에서 식탁까지"
+        subtitle="어디서 온 쌀로, 어떤 공정을 거쳐 만드는지 숨기지 않습니다."
+      />
+      <ol class="grid-cards steps" role="list">
+        <StepCard number="01" title="가평의 원료" icon="field">
+          깨끗한 물과 공기가 살아 있는 가평에서 무농약 우렁이 쌀 등 친환경 원료를 고릅니다.
+        </StepCard>
+        <StepCard number="02" title="정성껏 짓기" icon="bowl">
+          가평군농업기술센터 거점농산물가공센터의 공유주방 즉석밥 설비에서 밥을 짓습니다.
+        </StepCard>
+        <StepCard number="03" title="멸균·금속검출" icon="scan">
+          레토르트 HACCP 기준에 따라 멸균하고, 금속검출 공정을 거칩니다.
+        </StepCard>
+        <StepCard number="04" title="우리 집 식탁으로" icon="microwave">
+          실온에 보관했다가 전자레인지에 2분, 따뜻한 한 끼가 완성됩니다.
+        </StepCard>
+      </ol>
+      <p class="section-more"><a href="/process" class="link-arrow">안심 공정 자세히 보기 →</a></p>
+    </div>
+  </section>
+
+  <!-- 비교표 -->
+  <section class="section" aria-labelledby="compare-title">
+    <div class="container">
+      <SectionHeader
+        id="compare-title"
+        eyebrow="Compare"
+        title="4종 한눈에 비교하기"
+        subtitle="원료와 목적의 차이를 비교해 보세요."
+      />
+      <CompareTable />
+    </div>
+  </section>
+
+  <!-- 상생 스토리 -->
+  <section class="section" aria-labelledby="story-title">
+    <div class="container">
+      <div class="story">
+        <div class="story__photo" role="img" aria-label="가평 논 사진 자리 (실제 사진으로 교체 예정)">
+          <Icon name="field" size={64} />
+          <span>[가평 농가·논 사진]</span>
+        </div>
+        <div class="story__copy">
+          <p class="eyebrow">Brand story</p>
+          <h2 class="t-heading-1" id="story-title">가평의 들과 함께 짓는 밥</h2>
+          <blockquote class="story__quote">
+            “건강한 식사는 좋은 원료에서 시작된다”
+          </blockquote>
+          <p>
+            37년간 농업기술 분야에서 친환경 농업, 농산물 가공, 농업인 교육, 지역농업 발전을 위해
+            일해 온 경험이 다온한끼의 출발점입니다. 단순한 즉석밥이 아닌, 가족이 안심하고 먹을 수 있는
+            건강밥을 가평의 원료로 짓습니다.
+          </p>
+          <ul role="list" class="story__points">
+            <li><Icon name="check" size={20} /> 친환경 인증 쌀</li>
+            <li><Icon name="check" size={20} /> 유기농 인증 찹쌀</li>
+            <li><Icon name="check" size={20} /> 국산 기능성 원료</li>
+            <li><Icon name="check" size={20} /> 정직한 제조 공정</li>
+          </ul>
+          <a href="/story" class="link-arrow">브랜드 스토리 읽기 →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" aria-labelledby="faq-title">
+    <div class="container faq">
+      <SectionHeader id="faq-title" eyebrow="FAQ" title="자주 묻는 질문" />
+      <div class="faq__list">
+        <FaqItem question="어떻게 데워 먹나요?">
+          <p>포장의 개봉선을 따라 개봉한 뒤 전자레인지에 넣고 2분간(700W 기준) 데우면 됩니다.</p>
+          <p>기호에 따라 30초~1분 정도 더 데우면 더욱 맛있게 드실 수 있습니다. 전자레인지 사양에 따라 시간은 달라질 수 있습니다.</p>
+        </FaqItem>
+        <FaqItem question="어디에서 만드나요?">
+          <p>
+            가평군농업기술센터 거점농산물가공센터의 공유주방 즉석밥 설비에서 생산합니다.
+            레토르트식품 HACCP 기준에 따라 멸균·금속검출 공정을 거칩니다.
+          </p>
+        </FaqItem>
+        <FaqItem question="어떻게 보관하나요?">
+          <p>실온에 보관하시면 됩니다. 유통기한은 포장에 별도 표기되어 있습니다.</p>
+        </FaqItem>
+        <FaqItem question="네 가지 제품은 어떻게 다른가요?">
+          <p>
+            황금강황밥은 강황을, 저당건강밥은 바나듐이 함유된 저당현미를, 저탄수건강밥은 파세올라민과
+            클로렐라를 더했습니다. 순(純)쌀밥은 가평 무농약 우렁이 쌀로 원재료 그대로 지었습니다.
+            위의 비교표에서 한눈에 볼 수 있습니다.
+          </p>
+        </FaqItem>
+        <FaqItem question="질병 치료에 도움이 되나요?">
+          <p>다온한끼 건강밥은 식품이며, 질병의 예방 및 치료를 위한 의약품이 아닙니다. 건강 상태에 따른 식단은 전문가와 상담하세요.</p>
+        </FaqItem>
+        <FaqItem question="어디에서 살 수 있나요?" id="faq-buy">
+          <p><span class="tbd">[구매처(판매 채널) 안내 — 오픈 전 확정]</span></p>
+          <p>
+            궁금한 점은 <a href={`tel:${SITE.phone.replace(/-/g, '')}`}>{SITE.phone}</a> 또는
+            <a href={`mailto:${SITE.email}`}>{SITE.email}</a>로 문의해 주세요.
+          </p>
+        </FaqItem>
+      </div>
+    </div>
+  </section>
+
+  <CtaBanner
+    headingId="cta-title"
+    title="오늘의 한 끼가 내일의 건강을 만듭니다"
+    subtitle="내 몸에 맞는 다온한끼를 골라 보세요. 유통·급식·OEM 협업도 기다립니다."
+  >
+    <Button href={purchaseHref()} variant="buy">구매처 보기</Button>
+    <Button href="/b2b" variant="on-dark">B2B 문의</Button>
+  </CtaBanner>
+</BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter .pill-tab');
+  const cards = document.querySelectorAll<HTMLElement>('.products-grid .product-card');
+  const status = document.getElementById('filter-status');
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const filter = button.dataset.filter;
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+      let shown = 0;
+      cards.forEach((card) => {
+        const match = filter === '전체' || card.dataset.tag === filter;
+        card.hidden = !match;
+        if (match) shown += 1;
+      });
+      if (status) status.textContent = `${filter}: 제품 ${shown}개`;
+    });
+  });
+</script>
+
+<style>
+  /* Hero */
+  .hero { padding-block: var(--space-24) var(--space-16); }
+  .hero__inner { display: grid; gap: var(--space-16); }
+  .hero__copy { display: grid; gap: var(--space-6); justify-items: start; }
+  .hero__copy h1 { max-width: 15em; }
+  .hero__badges { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .hero__lead { max-width: 620px; }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-2); }
+
+  .hero__photos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-5);
+    margin: 0;
+    padding-bottom: var(--space-10);
+  }
+  /* 엇갈림 배치 */
+  .hero__photo:nth-child(even) { transform: translateY(var(--space-10)); }
+  .hero__photo-link {
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-3) var(--space-4);
+    border-radius: var(--rounded-xxxl);
+    background: var(--tint-bg);
+    color: var(--tint-ink);
+    box-shadow: var(--shadow-photo);
+    text-decoration: none;
+  }
+  .hero__photo-name {
+    padding-inline: var(--space-2);
+    font-weight: var(--weight-semibold);
+    font-size: 15px;
+  }
+  .hero__photo-link:hover .hero__photo-name { text-decoration: underline; text-underline-offset: 3px; }
+
+  @media (max-width: 1023px) {
+    .hero__photos { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 767px) {
+    .hero { padding-block: var(--space-12); }
+    .hero__inner { gap: var(--space-10); }
+    .hero__photos { gap: var(--space-3); padding-bottom: var(--space-6); }
+    .hero__photo:nth-child(even) { transform: translateY(var(--space-6)); }
+  }
+
+  /* Filter */
+  .filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-8);
+  }
+  .pill-tab {
+    min-height: var(--touch-min);
+    padding: 10px 18px;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-full);
+    background: var(--color-canvas);
+    color: var(--color-slate);
+    font-size: 15px;
+    font-weight: var(--weight-medium);
+    cursor: pointer;
+  }
+  .pill-tab:hover { border-color: var(--color-hairline-strong); color: var(--color-ink); }
+  .pill-tab[aria-pressed='true'] {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+
+  .steps { margin: 0; }
+  .section-more { margin-top: var(--space-6); }
+
+  /* Story */
+  .story {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    align-items: center;
+    gap: var(--space-12);
+  }
+  .story > * { flex: 1 1 440px; }
+  .story__photo {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: var(--space-3);
+    aspect-ratio: 5 / 4;
+    border-radius: var(--rounded-xxxl);
+    background: var(--color-leaf-light);
+    color: var(--color-leaf-dark);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+  }
+  .story__copy { display: grid; gap: var(--space-5); justify-items: start; }
+  .story__copy > p:not(.eyebrow) { color: var(--color-slate); }
+  .story__quote {
+    margin: 0;
+    padding: var(--space-5) var(--space-6);
+    border-radius: var(--rounded-xl);
+    background: var(--color-turmeric-light);
+    color: var(--color-turmeric-dark);
+    font-size: var(--text-heading-4);
+    font-weight: var(--weight-medium);
+    line-height: 1.5;
+  }
+  .story__points {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-3) var(--space-6);
+    width: 100%;
+    margin: 0;
+  }
+  .story__points li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: var(--weight-medium);
+  }
+  .story__points :global(svg) { color: var(--color-leaf); flex: none; }
+
+  /* FAQ */
+  .faq__list { border-top: 1px solid var(--color-hairline); max-width: 920px; }
+  .faq__list a { color: var(--color-leaf); font-weight: var(--weight-medium); }
+</style>

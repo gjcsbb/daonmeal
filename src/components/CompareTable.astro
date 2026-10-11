@@ -1,0 +1,83 @@
+---
+import { PRODUCTS } from '../data/site';
+import Value from './Value.astro';
+
+const rows: { label: string; get: (p: (typeof PRODUCTS)[number]) => string }[] = [
+  { label: '이런 분께', get: (p) => p.tag },
+  { label: '핵심 원료', get: (p) => p.keyIngredients.join(', ') },
+  { label: '중량', get: (p) => p.weight },
+  { label: '열량', get: (p) => p.calories },
+  { label: '구성', get: (p) => p.pack },
+  { label: '조리', get: (p) => p.cooking },
+  { label: '보관', get: (p) => p.storage },
+];
+---
+<div class="compare" role="region" aria-labelledby="compare-title" tabindex="0">
+  <table>
+    <caption class="visually-hidden">다온한끼 건강밥 4종 비교</caption>
+    <thead>
+      <tr>
+        <th scope="col"><span class="visually-hidden">항목</span></th>
+        {PRODUCTS.map((p) => (
+          <th scope="col">
+            <a href={`/products/${p.slug}`} class={`compare__chip tint-${p.tint}`}>{p.name}</a>
+          </th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row) => (
+        <tr>
+          <th scope="row">{row.label}</th>
+          {PRODUCTS.map((p) => <td><Value value={row.get(p)} /></td>)}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+<p class="t-caption compare__note">
+  공통: 레토르트 HACCP 시설 생산 · 멸균·금속검출 공정. 영양성분은 각 제품 상세에서 확인하세요.
+</p>
+
+<style>
+  .compare {
+    overflow-x: auto;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-xl);
+    background: var(--color-canvas);
+  }
+  table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse;
+    font-size: var(--text-body-sm);
+  }
+  th, td {
+    padding: 16px 20px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-hairline-soft);
+  }
+  tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+  thead th { background: var(--color-surface-soft); }
+  tbody th {
+    width: 120px;
+    color: var(--color-steel);
+    font-weight: var(--weight-medium);
+    white-space: nowrap;
+  }
+  .compare__chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 6px 14px;
+    border-radius: var(--rounded-full);
+    background: var(--tint-bg);
+    color: var(--tint-ink);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .compare__chip:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .compare__note { margin-top: var(--space-3); }
+</style>

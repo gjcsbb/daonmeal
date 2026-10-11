@@ -1,0 +1,48 @@
+---
+import Icon from './Icon.astro';
+import type { Props as IconProps } from './Icon.astro';
+interface Props {
+  number: string;
+  title: string;
+  icon?: IconProps['name'];
+}
+const { number, title, icon } = Astro.props;
+---
+<li class="step-card">
+  <div class="step-card__top">
+    <span class="step-card__number" aria-hidden="true">{number}</span>
+    {icon && <span class="step-card__icon"><Icon name={icon} size={22} /></span>}
+  </div>
+  <h3 class="t-heading-4"><span class="visually-hidden">{number}단계 </span>{title}</h3>
+  <p class="t-body-sm"><slot /></p>
+</li>
+
+<style>
+  .step-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: 28px;
+    border: 1px solid var(--color-hairline-soft);
+    border-radius: var(--rounded-xxl);
+    background: var(--color-canvas);
+  }
+  .step-card__top { display: flex; align-items: center; justify-content: space-between; }
+  .step-card__number {
+    font-size: var(--text-step-number);
+    font-weight: var(--weight-semibold);
+    letter-spacing: -1.5px;
+    line-height: 1;
+    color: var(--color-turmeric-text);
+  }
+  .step-card__icon {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--rounded-full);
+    background: var(--color-leaf-light);
+    color: var(--color-leaf-dark);
+  }
+  .step-card p { color: var(--color-slate); }
+</style>
