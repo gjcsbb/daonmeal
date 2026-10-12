@@ -35,7 +35,7 @@ const values: { en: string; title: string; body: string; tone: string; icon: Ico
 
 const promises = ['좋은 원료를 선택합니다', '건강을 연구합니다', '정직하게 만듭니다', '가족이 먹는 마음으로 생산합니다'];
 
-const people: { role: string; name: string; body: string; icon: IconProps['name'] }[] = [
+const people: { role: string; name: string; body: string; icon: IconProps['name']; src?: string; alt?: string }[] = [
   {
     role: '원료',
     name: '가평 농가',
@@ -47,6 +47,8 @@ const people: { role: string; name: string; body: string; icon: IconProps['name'
     name: '가평군농업기술센터 거점농산물가공센터',
     body: '공유주방 즉석밥 설비에서 다온한끼를 생산합니다.',
     icon: 'bowl',
+    src: '/images/facility/tour.webp',
+    alt: '거점농산물가공센터 즉석밥 생산실 견학 모습',
   },
   {
     role: '브랜드',
@@ -153,7 +155,7 @@ const history = [
       <ul class="grid-cards st-people" role="list">
         {people.map((p) => (
           <li class="person">
-            <PhotoPlaceholder label={p.name} ratio="4 / 3" icon={p.icon} tone="surface" />
+            <PhotoPlaceholder label={p.alt ?? p.name} ratio="4 / 3" icon={p.icon} tone="surface" src={p.src} />
             <p class="eyebrow">{p.role}</p>
             <h3 class="t-heading-4">{p.name}</h3>
             <p class="t-body-sm">{p.body}</p>

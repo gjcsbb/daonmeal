@@ -17,6 +17,7 @@ interface Step {
   body: string;
   points: string[];
   photo: string;
+  src?: string;
   icon: IconProps['name'];
 }
 
@@ -36,7 +37,8 @@ const steps: Step[] = [
     title: '공유주방 설비에서 밥을 짓습니다',
     body: '가평군농업기술센터 거점농산물가공센터의 공유주방 즉석밥 설비에서 제품별 원료를 더해 밥을 짓습니다.',
     points: ['거점농산물가공센터', '즉석밥 전용 설비'],
-    photo: '즉석밥 설비',
+    photo: '거점농산물가공센터 즉석밥 충전 설비',
+    src: '/images/facility/filling.webp',
     icon: 'bowl',
   },
   {
@@ -45,7 +47,8 @@ const steps: Step[] = [
     title: '레토르트 공정으로 멸균합니다',
     body: '레토르트식품 HACCP 기준에 따라 포장한 밥을 멸균합니다. 그래서 실온에 보관했다가 바로 데워 드실 수 있습니다.',
     points: ['레토르트식품 HACCP', '멸균 공정'],
-    photo: '멸균 공정',
+    photo: '거점농산물가공센터 레토르트 멸균기',
+    src: '/images/facility/retort.webp',
     icon: 'shield',
   },
   {
@@ -54,7 +57,8 @@ const steps: Step[] = [
     title: '금속검출을 거쳐 출하합니다',
     body: '금속검출 공정을 거친 제품만 포장해 식탁으로 보냅니다.',
     points: ['금속검출 공정', '개별 포장'],
-    photo: '금속검출·포장',
+    photo: '즉석밥 용기 실링·포장 공정',
+    src: '/images/facility/sealing.webp',
     icon: 'scan',
   },
 ];
@@ -63,7 +67,7 @@ const documents = [
   { title: '레토르트식품 HACCP 인증', number: '[인증번호]', icon: 'shield' as const },
   { title: '무농약 인증 쌀', number: '[인증번호]', icon: 'leaf' as const },
   { title: '유기농 인증 찹쌀', number: '[인증번호]', icon: 'sprout' as const },
-  { title: '생산 시설', number: '[시설 사진·소개]', icon: 'bowl' as const },
+  { title: '생산 시설', number: '가평군농업기술센터 거점농산물가공센터 즉석밥 생산 라인', icon: 'bowl' as const, image: '/images/facility/line.webp' },
 ];
 ---
 <BaseLayout
@@ -111,7 +115,7 @@ const documents = [
                 ))}
               </ul>
             </div>
-            <PhotoPlaceholder class="ps-step__photo" label={step.photo} icon={step.icon} ratio="4 / 3" />
+            <PhotoPlaceholder class="ps-step__photo" label={step.photo} icon={step.icon} src={step.src} ratio="4 / 3" />
           </li>
         ))}
       </ol>
@@ -130,9 +134,13 @@ const documents = [
       <ul class="grid-cards ps-docs" role="list">
         {documents.map((doc) => (
           <li class="ps-doc">
-            <div class="ps-doc__thumb" role="img" aria-label={`${doc.title} 이미지 자리 (실제 인증서로 교체 예정)`}>
-              <Icon name={doc.icon} size={36} />
-            </div>
+            {'image' in doc && doc.image ? (
+              <img class="ps-doc__thumb ps-doc__thumb--photo" src={doc.image} alt="거점농산물가공센터 즉석밥 생산 라인" loading="lazy" decoding="async" />
+            ) : (
+              <div class="ps-doc__thumb" role="img" aria-label={`${doc.title} 이미지 자리 (실제 인증서로 교체 예정)`}>
+                <Icon name={doc.icon} size={36} />
+              </div>
+            )}
             <h3 class="t-heading-4">{doc.title}</h3>
             <p class="t-body-sm"><Value value={doc.number} /></p>
           </li>
@@ -260,6 +268,7 @@ const documents = [
     border: 1px solid var(--color-hairline-soft);
     border-radius: var(--rounded-xl);
   }
+  .ps-doc__thumb--photo { width: 100%; object-fit: cover; }
   .ps-doc__thumb {
     display: grid;
     place-items: center;
