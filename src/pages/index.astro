@@ -41,7 +41,7 @@ const tags = ['전체', ...PRODUCTS.map((p) => p.tag)];
         {PRODUCTS.map((p) => (
           <li class={`hero__photo tint-${p.tint}`}>
             <a href={`/products/${p.slug}`} class="hero__photo-link">
-              <ProductPhoto tint={p.tint} name={p.name} />
+              <ProductPhoto tint={p.tint} name={p.name} src={p.images.main} eager />
               <span class="hero__photo-name">{p.name}</span>
             </a>
           </li>
@@ -105,7 +105,7 @@ const tags = ['전체', ...PRODUCTS.map((p) => p.tag)];
   </section>
 
   <!-- 비교표 -->
-  <section class="section" aria-labelledby="compare-title">
+  <section class="section" id="compare" aria-labelledby="compare-title">
     <div class="container">
       <SectionHeader
         id="compare-title"
@@ -263,30 +263,6 @@ const tags = ['전체', ...PRODUCTS.map((p) => p.tag)];
     .hero__photo:nth-child(even) { transform: translateY(var(--space-6)); }
   }
 
-  /* Filter */
-  .filter {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-bottom: var(--space-8);
-  }
-  .pill-tab {
-    min-height: var(--touch-min);
-    padding: 10px 18px;
-    border: 1px solid var(--color-hairline);
-    border-radius: var(--rounded-full);
-    background: var(--color-canvas);
-    color: var(--color-slate);
-    font-size: 15px;
-    font-weight: var(--weight-medium);
-    cursor: pointer;
-  }
-  .pill-tab:hover { border-color: var(--color-hairline-strong); color: var(--color-ink); }
-  .pill-tab[aria-pressed='true'] {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-    color: var(--color-on-primary);
-  }
 
   .steps { margin: 0; }
   .section-more { margin-top: var(--space-6); }

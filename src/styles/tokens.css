@@ -43,6 +43,7 @@
   --color-placeholder: #8e91a0;     /* placeholder·미확정 값 표시 전용 */
   --color-on-dark: #ffffff;
   --color-on-dark-muted: #a5a8b5;
+  --color-error: #b3261e;            /* 폼 오류 표시 */
 
   /* Typography */
   --font-sans: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;

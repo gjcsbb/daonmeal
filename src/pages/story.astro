@@ -1,0 +1,291 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import PhotoPlaceholder from '../components/PhotoPlaceholder.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import Icon from '../components/Icon.astro';
+import Value from '../components/Value.astro';
+import type { Props as IconProps } from '../components/Icon.astro';
+import { purchaseHref } from '../data/site';
+
+const values: { en: string; title: string; body: string; tone: string; icon: IconProps['name'] }[] = [
+  {
+    en: 'Nature',
+    title: '자연을 담다',
+    body: '가평의 깨끗한 물과 공기, 우렁이 농법으로 자란 친환경 원료를 고릅니다.',
+    tone: 'value--leaf',
+    icon: 'leaf',
+  },
+  {
+    en: 'Health',
+    title: '건강을 더하다',
+    body: '강황, 저당현미, 파세올라민과 클로렐라처럼 식단의 목적에 맞는 원료를 밥에 담습니다.',
+    tone: 'value--turmeric',
+    icon: 'sprout',
+  },
+  {
+    en: 'Trust',
+    title: '신뢰를 잇다',
+    body: '레토르트 HACCP 기준과 정직한 공정으로, 가족이 먹는 마음으로 생산합니다.',
+    tone: 'value--surface',
+    icon: 'shield',
+  },
+];
+
+const promises = ['좋은 원료를 선택합니다', '건강을 연구합니다', '정직하게 만듭니다', '가족이 먹는 마음으로 생산합니다'];
+
+const people: { role: string; name: string; body: string; icon: IconProps['name']; src?: string; alt?: string }[] = [
+  {
+    role: '원료',
+    name: '가평 농가',
+    body: '우렁이 농법으로 무농약 쌀을 기르는 가평의 농가와 함께합니다.',
+    icon: 'snail',
+  },
+  {
+    role: '생산',
+    name: '가평군농업기술센터 거점농산물가공센터',
+    body: '공유주방 즉석밥 설비에서 다온한끼를 생산합니다.',
+    icon: 'bowl',
+    src: '/images/facility/tour.webp',
+    alt: '거점농산물가공센터 즉석밥 생산실 견학 모습',
+  },
+  {
+    role: '브랜드',
+    name: '그린팜푸드(주)',
+    body: '원료 선택부터 제품 기획, 품질 관리까지 다온한끼를 책임집니다.',
+    icon: 'handshake',
+  },
+];
+
+// TODO: 연혁은 확인된 사실만 채운다. 지어내지 않는다.
+const history = [
+  { year: '[연도]', text: '[그린팜푸드(주) 설립]' },
+  { year: '[연도]', text: '[레토르트식품 HACCP 인증]' },
+  { year: '[연도]', text: '[다온한끼 브랜드 출시]' },
+  { year: '[연도]', text: '[제품 라인업 4종 완성]' },
+];
+---
+<BaseLayout
+  title="브랜드 스토리"
+  description="사람이 평생 가장 많이 먹는 음식, 밥. 가평의 원료와 정직한 공정으로 건강한 한 끼를 짓는 다온한끼의 이야기."
+>
+  <!-- 대형 헤드라인 -->
+  <section class="st-hero" aria-labelledby="st-title">
+    <div class="container">
+      <p class="eyebrow">Brand story</p>
+      <h1 class="t-hero-display" id="st-title">
+        한 끼를 바꾸면<br />건강이 달라집니다
+      </h1>
+      <p class="t-subtitle st-hero__lead">
+        다온한끼는 좋은 원료와 정직한 마음으로 가족의 건강을 생각하는 건강밥 브랜드입니다.
+      </p>
+    </div>
+  </section>
+
+  <!-- 와이드 사진 -->
+  <div class="container">
+    <PhotoPlaceholder class="st-wide" label="가평의 들판" ratio="21 / 9" icon="field" />
+  </div>
+
+  <!-- 창업 이야기 -->
+  <section class="section" aria-labelledby="origin-title">
+    <div class="container st-origin">
+      <div class="st-origin__head">
+        <p class="eyebrow">Why we started</p>
+        <h2 class="t-heading-1" id="origin-title">다온한끼가 시작된 이유</h2>
+      </div>
+      <div class="st-origin__body">
+        <p class="st-origin__quote">“사람은 평생 가장 많이 먹는 음식이 바로 ‘밥’입니다.”</p>
+        <p>
+          하지만 현대인의 식생활은 빠르게 변하면서 건강보다 편리함을 앞세우게 되었습니다.
+          즉석식품은 많이 먹지만, 건강을 생각한 즉석밥은 아직 부족합니다. 다온한끼는 이 고민에서 시작되었습니다.
+        </p>
+        <p>
+          37년간 농업기술 분야에서 친환경 농업, 농산물 가공, 농업인 교육, 지역농업 발전을 위해 일해 온 경험은
+          “건강한 식사는 좋은 원료에서 시작된다”는 믿음을 갖게 했습니다.
+        </p>
+        <p>
+          그래서 단순한 즉석밥이 아니라, 식단의 목적에 맞는 원료를 담은 건강밥을 만들었습니다.
+          친환경 인증 쌀과 유기농 인증 찹쌀, 국산 원료, 정직한 제조 공정으로 가족이 안심하고 먹을 수 있는 한 끼를 짓습니다.
+        </p>
+        <div class="st-name">
+          <p class="st-name__label">이름에 담은 뜻</p>
+          <p>
+            <strong>다온</strong>은 ‘좋은 기운이 모두 온다’는 뜻입니다.
+            다온한끼는 여러분의 건강한 일상을 응원합니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 가치 3 -->
+  <section class="section" aria-labelledby="values-title">
+    <div class="container">
+      <SectionHeader id="values-title" eyebrow="Our values" title="자연을 담다, 건강을 더하다, 신뢰를 잇다" />
+      <ul class="grid-cards st-values" role="list">
+        {values.map((v) => (
+          <li class:list={['value', v.tone]}>
+            <span class="value__icon"><Icon name={v.icon} size={24} /></span>
+            <p class="value__en">{v.en}</p>
+            <h3 class="t-heading-2">{v.title}</h3>
+            <p>{v.body}</p>
+          </li>
+        ))}
+      </ul>
+      <div class="st-promise">
+        <p class="eyebrow">Our promise</p>
+        <ul role="list">
+          {promises.map((p) => <li><Icon name="check" size={20} /> {p}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 함께하는 사람들 -->
+  <section class="section" aria-labelledby="people-title">
+    <div class="container">
+      <SectionHeader
+        id="people-title"
+        eyebrow="Together"
+        title="함께 짓는 사람들"
+        subtitle="가평의 농가, 지역 가공센터와 함께 한 끼를 짓습니다."
+      />
+      <ul class="grid-cards st-people" role="list">
+        {people.map((p) => (
+          <li class="person">
+            <PhotoPlaceholder label={p.alt ?? p.name} ratio="4 / 3" icon={p.icon} tone="surface" src={p.src} />
+            <p class="eyebrow">{p.role}</p>
+            <h3 class="t-heading-4">{p.name}</h3>
+            <p class="t-body-sm">{p.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 연혁 -->
+  <section class="section" aria-labelledby="history-title">
+    <div class="container">
+      <SectionHeader id="history-title" eyebrow="History" title="걸어온 길" />
+      <ol class="st-history" role="list">
+        {history.map((h) => (
+          <li>
+            <span class="st-history__year"><Value value={h.year} /></span>
+            <span class="st-history__text"><Value value={h.text} /></span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <CtaBanner
+    headingId="cta-title"
+    title="오늘의 한 끼가 내일의 건강을 만듭니다"
+    subtitle="가평의 들에서 지은 다온한끼를 만나보세요."
+  >
+    <Button href={purchaseHref()} variant="buy">구매처 보기</Button>
+    <Button href="/#products" variant="on-dark">제품 고르기</Button>
+  </CtaBanner>
+</BaseLayout>
+
+<style>
+  .st-hero { padding-block: var(--space-24) var(--space-12); }
+  .st-hero .container { display: grid; gap: var(--space-5); }
+  .st-hero__lead { max-width: 640px; }
+  :global(.st-wide) { box-shadow: var(--shadow-photo); border-radius: var(--rounded-feature) !important; }
+
+  /* Origin */
+  .st-origin {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: var(--space-8) var(--space-16);
+  }
+  .st-origin__head { display: grid; gap: var(--space-3); align-content: start; }
+  .st-origin__body { display: grid; gap: var(--space-5); color: var(--color-slate); max-width: 680px; }
+  .st-origin__quote {
+    color: var(--color-ink);
+    font-size: var(--text-heading-3);
+    font-weight: var(--weight-semibold);
+    letter-spacing: -0.5px;
+    line-height: 1.4;
+  }
+  .st-name {
+    display: grid;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    border-radius: var(--rounded-xl);
+    background: var(--color-turmeric-light);
+    color: var(--color-turmeric-dark);
+  }
+  .st-name__label { font-size: var(--text-caption); font-weight: var(--weight-semibold); }
+  .st-name strong { font-weight: var(--weight-semibold); }
+
+  /* Values */
+  .st-values { margin: 0; }
+  .value {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    min-height: 280px;
+    padding: 36px;
+    border-radius: var(--rounded-xxxl);
+  }
+  .value h3 { color: var(--color-ink); }
+  .value--leaf { background: var(--color-leaf-light); color: var(--color-leaf-dark); }
+  .value--turmeric { background: var(--color-turmeric-light); color: var(--color-turmeric-dark); }
+  .value--surface { background: var(--color-surface); color: var(--color-slate); }
+  .value__icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: var(--space-4);
+    border-radius: var(--rounded-full);
+    background: var(--color-canvas);
+  }
+  .value__en {
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .st-promise {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4) var(--space-8);
+    margin-top: var(--space-6);
+    padding: var(--space-6) var(--space-8);
+    border: 1px solid var(--color-hairline-soft);
+    border-radius: var(--rounded-xl);
+  }
+  .st-promise ul { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-8); margin: 0; }
+  .st-promise li { display: flex; align-items: center; gap: var(--space-2); font-weight: var(--weight-medium); }
+  .st-promise :global(svg) { color: var(--color-leaf); flex: none; }
+
+  /* People */
+  .st-people { margin: 0; }
+  .person { display: grid; gap: var(--space-2); align-content: start; }
+  .person :global(.photo) { margin-bottom: var(--space-3); }
+  .person .t-body-sm { color: var(--color-slate); }
+
+  /* History */
+  .st-history { margin: 0; max-width: 760px; border-top: 1px solid var(--color-hairline); }
+  .st-history li {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: var(--space-4);
+    padding: 20px 4px;
+    border-bottom: 1px solid var(--color-hairline-soft);
+  }
+  .st-history__year { font-size: var(--text-heading-4); font-weight: var(--weight-semibold); }
+
+  @media (max-width: 767px) {
+    .st-hero { padding-block: var(--space-16) var(--space-8); }
+    .st-origin { grid-template-columns: 1fr; }
+    .value { padding: 28px; }
+    .st-history li { grid-template-columns: 96px 1fr; }
+  }
+</style>

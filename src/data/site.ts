@@ -12,14 +12,14 @@ export const SITE = {
   phone: '010-8144-6840',
   email: 'weonsanlee@gmail.com',
   bizNumber: '[사업자등록번호]',
-  ceo: '[대표자명]',
+  ceo: '이원산',
   // TODO: 구매처(판매 채널) URL 확정 전까지 비워둔다. 비어 있으면 FAQ의 구매처 안내로 연결된다.
   purchaseUrl: '',
 };
 
 export const NAV = [
   { href: '/story', label: '브랜드 스토리' },
-  { href: '/#products', label: '제품' },
+  { href: '/#products', label: '제품', match: '/products' },
   { href: '/process', label: '안심 공정' },
   { href: '/guide', label: '식단 가이드' },
   { href: '/b2b', label: 'B2B 문의', muted: true },
@@ -33,9 +33,12 @@ export interface Product {
   englishName: string;
   tag: string;
   tint: Tint;
+  images: { main: string; package: string; set: string; ingredient: string };
   summary: string;
   description: string;
   keyIngredients: string[];
+  ingredientCards: { name: string; text: string; image?: string }[];
+  recommendedFor: string[];
   ingredientsLabel: string;
   foodType: string;
   weight: string;

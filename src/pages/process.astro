@@ -1,0 +1,408 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Badge from '../components/Badge.astro';
+import Button from '../components/Button.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import PhotoPlaceholder from '../components/PhotoPlaceholder.astro';
+import FaqItem from '../components/FaqItem.astro';
+import Icon from '../components/Icon.astro';
+import Value from '../components/Value.astro';
+import type { Props as IconProps } from '../components/Icon.astro';
+import { SITE, purchaseHref } from '../data/site';
+
+interface Step {
+  number: string;
+  eyebrow: string;
+  title: string;
+  body: string;
+  points: string[];
+  photo: string;
+  src?: string;
+  icon: IconProps['name'];
+}
+
+const steps: Step[] = [
+  {
+    number: '01',
+    eyebrow: 'Ingredients',
+    title: '가평의 원료를 고릅니다',
+    body: '깨끗한 물과 공기가 살아 있는 가평에서 자란 원료로 시작합니다. 모든 쌀은 무농약 인증 쌀을, 찹쌀은 유기농 인증 찹쌀을 사용합니다.',
+    points: ['무농약 인증 쌀', '유기농 인증 찹쌀', '가평 우렁이 농법 쌀'],
+    photo: '가평 논·원료',
+    icon: 'field',
+  },
+  {
+    number: '02',
+    eyebrow: 'Cooking',
+    title: '공유주방 설비에서 밥을 짓습니다',
+    body: '가평군농업기술센터 거점농산물가공센터의 공유주방 즉석밥 설비에서 제품별 원료를 더해 밥을 짓습니다.',
+    points: ['거점농산물가공센터', '즉석밥 전용 설비'],
+    photo: '거점농산물가공센터 즉석밥 충전 설비',
+    src: '/images/facility/filling.webp',
+    icon: 'bowl',
+  },
+  {
+    number: '03',
+    eyebrow: 'Sterilization',
+    title: '레토르트 공정으로 멸균합니다',
+    body: '레토르트식품 HACCP 기준에 따라 포장한 밥을 멸균합니다. 그래서 실온에 보관했다가 바로 데워 드실 수 있습니다.',
+    points: ['레토르트식품 HACCP', '멸균 공정'],
+    photo: '거점농산물가공센터 레토르트 멸균기',
+    src: '/images/facility/retort.webp',
+    icon: 'shield',
+  },
+  {
+    number: '04',
+    eyebrow: 'Inspection',
+    title: '금속검출을 거쳐 출하합니다',
+    body: '금속검출 공정을 거친 제품만 포장해 식탁으로 보냅니다.',
+    points: ['금속검출 공정', '개별 포장'],
+    photo: '즉석밥 용기 실링·포장 공정',
+    src: '/images/facility/sealing.webp',
+    icon: 'scan',
+  },
+];
+
+interface Doc {
+  title: string;
+  image: string;
+  alt: string;
+  kind: 'cert' | 'photo';
+  details: { label: string; value: string }[];
+}
+
+// 인증서 이미지는 개인정보(생년월일, 개인 생산자 이름·주소)를 가린 사본이다.
+const documents: Doc[] = [
+  {
+    title: '레토르트식품 HACCP 인증',
+    image: '/images/certs/haccp.webp',
+    alt: '식품안전관리인증기준(HACCP) 적용업소 인증서, 제 2026-1-0227 호',
+    kind: 'cert',
+    details: [
+      { label: '인증번호', value: '제 2026-1-0227 호' },
+      { label: '식품 종별', value: '레토르트식품(즉석조리식품)' },
+      { label: '중요관리점', value: '멸균, 금속검출' },
+      { label: '유효기간', value: '2026.05.07 ~ 2029.05.06' },
+      { label: '인증기관', value: '한국식품안전관리인증원' },
+    ],
+  },
+  {
+    title: '무농약 인증 쌀',
+    image: '/images/certs/non-pesticide.webp',
+    alt: '무농약농산물 인증서, 제 10304127 호',
+    kind: 'cert',
+    details: [
+      { label: '인증번호', value: '제 10304127 호' },
+      { label: '인증품목', value: '벼 외 1품목' },
+      { label: '생산자', value: '가평군 조종면 현리친환경단지' },
+      { label: '유효기간', value: '2025.10.11 ~ 2026.10.10' },
+      { label: '인증기관', value: '(주)케이농식품인증센터' },
+    ],
+  },
+  {
+    title: '유기농 인증 찹쌀',
+    image: '/images/certs/organic.webp',
+    alt: '유기농산물 인증서, 제 10100657 호',
+    kind: 'cert',
+    details: [
+      { label: '인증번호', value: '제 10100657 호' },
+      { label: '인증품목', value: '찰벼' },
+      { label: '생산지', value: '가평군 가평읍' },
+      { label: '유효기간', value: '2025.09.24 ~ 2026.09.23' },
+      { label: '인증기관', value: '(주)케이농식품인증센터' },
+    ],
+  },
+  {
+    title: '생산 시설',
+    image: '/images/facility/line.webp',
+    alt: '거점농산물가공센터 즉석밥 생산 라인',
+    kind: 'photo',
+    details: [
+      { label: '시설', value: '가평군농업기술센터 거점농산물가공센터' },
+      { label: '설비', value: '공유주방 즉석밥 생산 라인' },
+    ],
+  },
+];
+------
+<BaseLayout
+  title="안심 공정"
+  description="가평의 원료부터 레토르트 HACCP 멸균, 금속검출까지. 다온한끼 건강밥이 만들어지는 과정과 인증 자료를 확인하세요."
+>
+  <!-- 그린 히어로 -->
+  <section class="ps-hero" aria-labelledby="ps-title">
+    <div class="container ps-hero__inner">
+      <div class="ps-hero__copy">
+        <p class="eyebrow">Safe process</p>
+        <h1 class="t-hero-display" id="ps-title">원료에서 식탁까지,<br />숨기지 않습니다</h1>
+        <p class="t-subtitle">
+          어디서 온 쌀로, 어떤 설비에서, 어떤 기준으로 만드는지. 다온한끼가 한 끼를 짓는 과정을 그대로 보여드립니다.
+        </p>
+        <ul class="ps-hero__badges" role="list">
+          <li><Badge variant="plain">레토르트식품 HACCP</Badge></li>
+          <li><Badge variant="plain">멸균·금속검출</Badge></li>
+          <li><Badge variant="plain">무농약 인증 쌀</Badge></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4단계 지그재그 -->
+  <section class="section" aria-labelledby="steps-title">
+    <div class="container">
+      <SectionHeader
+        id="steps-title"
+        eyebrow="4 steps"
+        title="한 끼가 만들어지는 4단계"
+        subtitle="가평군농업기술센터 거점농산물가공센터에서 생산합니다."
+      />
+      <ol class="ps-steps" role="list">
+        {steps.map((step) => (
+          <li class="ps-step">
+            <div class="ps-step__copy">
+              <p class="ps-step__number" aria-hidden="true">{step.number}</p>
+              <p class="eyebrow">{step.eyebrow}</p>
+              <h3 class="t-heading-2"><span class="visually-hidden">{step.number}단계 </span>{step.title}</h3>
+              <p class="ps-step__body">{step.body}</p>
+              <ul class="ps-step__points" role="list">
+                {step.points.map((point) => (
+                  <li><Icon name="check" size={18} /> {point}</li>
+                ))}
+              </ul>
+            </div>
+            <PhotoPlaceholder class="ps-step__photo" label={step.photo} icon={step.icon} src={step.src} ratio="4 / 3" />
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 인증·시설 자료 -->
+  <section class="section" id="documents" aria-labelledby="docs-title">
+    <div class="container">
+      <SectionHeader
+        id="docs-title"
+        eyebrow="Certificates"
+        title="인증·시설 자료"
+        subtitle="인증서 원본과 번호를 공개합니다."
+      />
+      <ul class="grid-cards ps-docs" role="list">
+        {documents.map((doc) => (
+          <li class="ps-doc">
+            <a class="ps-doc__thumb-link" href={doc.image} target="_blank" rel="noopener">
+              <img class:list={['ps-doc__thumb', `ps-doc__thumb--${doc.kind}`]} src={doc.image} alt={doc.alt} loading="lazy" decoding="async" />
+              <span class="visually-hidden">(원본 이미지 새 창으로 보기)</span>
+            </a>
+            <h3 class="t-heading-4">{doc.title}</h3>
+            <dl class="ps-doc__details">
+              {doc.details.map((d) => (
+                <div>
+                  <dt>{d.label}</dt>
+                  <dd><Value value={d.value} /></dd>
+                </div>
+              ))}
+            </dl>
+          </li>
+        ))}
+      </ul>
+      <div class="ps-pdf">
+        <span class="ps-pdf__icon"><Icon name="shield" size={22} /></span>
+        <div>
+          <p class="t-heading-4">인증서·시설 자료 PDF</p>
+          <p class="t-caption">유통·급식 담당자를 위한 자료 묶음입니다.</p>
+        </div>
+        {/* TODO: 인증서 PDF가 준비되면 /public/docs/ 에 넣고 Button href로 바꾼다. */}
+        <span class="ps-pdf__pending tbd">[PDF 준비 중]</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 안전 FAQ -->
+  <section class="section" aria-labelledby="safety-faq-title">
+    <div class="container">
+      <SectionHeader id="safety-faq-title" eyebrow="Safety FAQ" title="안전에 대해 자주 묻는 질문" />
+      <div class="ps-faq">
+        <FaqItem question="HACCP 인증은 무엇인가요?">
+          <p>
+            HACCP(식품안전관리인증기준)은 원료부터 제조·가공·유통까지 각 단계에서 생길 수 있는 위해 요소를 분석하고
+            중점적으로 관리하는 식품 안전 관리 체계입니다. 다온한끼는 레토르트식품 HACCP 기준에 따라 생산합니다.
+          </p>
+        </FaqItem>
+        <FaqItem question="실온에 보관해도 괜찮은가요?">
+          <p>
+            다온한끼는 포장한 뒤 멸균하는 레토르트 공정을 거쳐 실온 보관이 가능합니다.
+            유통기한은 포장에 표기된 날짜를 확인해 주세요.
+          </p>
+        </FaqItem>
+        <FaqItem question="원료는 어디에서 오나요?">
+          <p>
+            가평에서 재배한 원료를 중심으로 사용합니다. 모든 쌀은 무농약 인증 쌀, 찹쌀은 유기농 인증 찹쌀을 사용하며,
+            순(純)쌀밥은 가평 무농약 우렁이 쌀로 짓습니다.
+          </p>
+        </FaqItem>
+        <FaqItem question="금속검출 공정은 왜 하나요?">
+          <p>생산 과정에서 혹시라도 섞일 수 있는 금속 이물을 걸러 내기 위해, 포장된 제품을 검출기에 통과시킵니다.</p>
+        </FaqItem>
+        <FaqItem question="알레르기 유발 물질이 있나요?">
+          <p>제품마다 원료가 다르므로 각 제품 포장의 알레르기 표시를 확인해 주세요. <span class="tbd">[제품별 알레르기 정보]</span></p>
+        </FaqItem>
+      </div>
+    </div>
+  </section>
+
+  <!-- 소비자 / B2B 이중 CTA -->
+  <section class="section" aria-label="다음 단계">
+    <div class="container ps-cta">
+      <div class="ps-cta__card ps-cta__card--consumer">
+        <p class="eyebrow">For you</p>
+        <h2 class="t-heading-2">안심하고 고르셨다면</h2>
+        <p>내 몸에 맞는 다온한끼를 구매처에서 만나보세요.</p>
+        <div class="ps-cta__actions">
+          <Button href={purchaseHref()} variant="buy">구매처 보기</Button>
+          <Button href="/#products" variant="secondary">제품 고르기</Button>
+        </div>
+      </div>
+      <div class="ps-cta__card ps-cta__card--b2b">
+        <p class="eyebrow ps-cta__eyebrow">For business</p>
+        <h2 class="t-heading-2">유통·급식·OEM 담당자라면</h2>
+        <p>인증 자료와 생산 조건을 안내해 드립니다. {SITE.phone}</p>
+        <div class="ps-cta__actions">
+          <Button href="/b2b" variant="on-dark">B2B 문의하기</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .ps-hero {
+    padding-block: var(--space-24);
+    background: var(--color-leaf-light);
+  }
+  .ps-hero__copy { display: grid; gap: var(--space-5); max-width: 860px; }
+  .ps-hero .eyebrow { color: var(--color-leaf-dark); }
+  .ps-hero h1 { color: var(--color-leaf-dark); }
+  .ps-hero .t-subtitle { color: var(--color-leaf-dark); max-width: 640px; }
+  .ps-hero__badges { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0; }
+
+  /* Zigzag steps */
+  .ps-steps { display: grid; gap: var(--space-16); margin: 0; }
+  .ps-step {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    align-items: center;
+    gap: var(--space-8) var(--space-12);
+  }
+  .ps-step:nth-child(even) { flex-direction: row-reverse; }
+  .ps-step__copy { flex: 1 1 400px; display: grid; gap: var(--space-3); justify-items: start; }
+  .ps-step :global(.ps-step__photo) { flex: 1 1 400px; }
+  .ps-step__number {
+    font-size: var(--text-step-number);
+    font-weight: var(--weight-semibold);
+    letter-spacing: -1.5px;
+    line-height: 1;
+    color: var(--color-turmeric-text);
+  }
+  .ps-step__body { color: var(--color-slate); max-width: 520px; }
+  .ps-step__points { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-2) 0 0; }
+  .ps-step__points li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: var(--rounded-full);
+    background: var(--color-leaf-light);
+    color: var(--color-leaf-dark);
+    font-size: 14px;
+    font-weight: var(--weight-medium);
+  }
+
+  /* Documents */
+  .ps-docs { margin: 0; }
+  .ps-doc {
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    border: 1px solid var(--color-hairline-soft);
+    border-radius: var(--rounded-xl);
+  }
+  .ps-doc { align-content: start; }
+  .ps-doc__thumb-link {
+    display: block;
+    border-radius: var(--rounded-lg);
+  }
+  .ps-doc__thumb {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--rounded-lg);
+    border: 1px solid var(--color-hairline-soft);
+    background: var(--color-surface);
+    object-fit: cover;
+  }
+  .ps-doc__thumb--cert { object-fit: contain; padding: var(--space-2); }
+  .ps-doc__thumb-link:hover .ps-doc__thumb { border-color: var(--color-hairline-strong); }
+  .ps-doc__details { display: grid; gap: 6px; font-size: var(--text-caption); line-height: 1.5; }
+  .ps-doc__details div { display: grid; grid-template-columns: 64px 1fr; gap: var(--space-2); }
+  .ps-doc__details dt { color: var(--color-steel); }
+  .ps-doc__details dd { color: var(--color-body-strong); }
+  .ps-pdf {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4) var(--space-5);
+    margin-top: var(--space-6);
+    padding: var(--space-6);
+    border-radius: var(--rounded-xl);
+    background: var(--color-surface-soft);
+    border: 1px solid var(--color-hairline-soft);
+  }
+  .ps-pdf > div { flex: 1 1 240px; }
+  .ps-pdf__icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--rounded-full);
+    background: var(--color-leaf-light);
+    color: var(--color-leaf-dark);
+  }
+  .ps-pdf__pending {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--touch-min);
+    padding: 0 20px;
+    border: 1px dashed var(--color-hairline-strong);
+    border-radius: var(--rounded-full);
+  }
+
+  /* FAQ */
+  .ps-faq { max-width: 920px; border-top: 1px solid var(--color-hairline); }
+
+  /* Dual CTA */
+  .ps-cta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    gap: var(--space-6);
+  }
+  .ps-cta__card {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    padding: 48px 40px;
+    border-radius: var(--rounded-feature);
+  }
+  .ps-cta__card--consumer { background: var(--color-turmeric-light); color: var(--color-turmeric-dark); }
+  .ps-cta__card--consumer h2 { color: var(--color-ink); }
+  .ps-cta__card--consumer .eyebrow { color: var(--color-turmeric-dark); }
+  .ps-cta__card--b2b { background: var(--color-primary); color: var(--color-on-dark-muted); }
+  .ps-cta__card--b2b h2 { color: var(--color-on-dark); }
+  .ps-cta__eyebrow { color: var(--color-brand-turmeric); }
+  .ps-cta__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-3); }
+
+  @media (max-width: 767px) {
+    .ps-hero { padding-block: var(--space-16); }
+    .ps-steps { gap: var(--space-12); }
+    .ps-cta__card { padding: 36px 24px; }
+  }
+</style>

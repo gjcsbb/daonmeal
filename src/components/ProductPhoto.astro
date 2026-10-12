@@ -1,18 +1,20 @@
 ---
-// 실제 제품 사진이 들어오기 전 자리표시. src를 넘기면 사진을 쓴다.
+// 제품 사진. src가 없으면 자리표시를 보여준다.
 import type { Tint } from '../data/site';
 import Icon from './Icon.astro';
 interface Props {
   tint: Tint;
   name: string;
   src?: string;
+  alt?: string;
+  eager?: boolean;
   class?: string;
 }
-const { tint, name, src, class: className } = Astro.props;
+const { tint, name, src, alt, eager = false, class: className } = Astro.props;
 ---
 <div class:list={['product-photo', `tint-${tint}`, className]}>
   {src ? (
-    <img src={src} alt={`${name} 제품 사진`} loading="lazy" decoding="async" />
+    <img src={src} alt={alt ?? `${name} 한 그릇`} loading={eager ? 'eager' : 'lazy'} decoding="async" />
   ) : (
     <div class="product-photo__placeholder" role="img" aria-label={`${name} 사진 자리 (실제 사진으로 교체 예정)`}>
       <Icon name="bowl" size={56} />

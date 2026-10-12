@@ -7,9 +7,35 @@
       "englishName": "Turmeric Rice",
       "tag": "강황",
       "tint": "turmeric",
+      "images": {
+        "main": "/images/products/turmeric/main.webp",
+        "package": "/images/products/turmeric/package.webp",
+        "set": "/images/products/turmeric/set.webp",
+        "ingredient": "/images/products/turmeric/ing-1.webp"
+      },
       "summary": "국내산 친환경 쌀에 강황을 더해 지은 노란 빛깔의 밥",
       "description": "국내산 친환경 쌀로 지은 밥에 강황을 더했습니다. 전자레인지 2분이면 따뜻한 한 끼가 완성됩니다.",
-      "keyIngredients": ["국내산 친환경 쌀", "국내산 강황"],
+      "keyIngredients": [
+        "국내산 친환경 쌀",
+        "국내산 강황"
+      ],
+      "ingredientCards": [
+        {
+          "name": "국내산 친환경 쌀",
+          "text": "깨끗한 자연에서 자란 국내산 친환경 쌀로 밥을 짓습니다.",
+          "image": "/images/products/turmeric/ing-0.webp"
+        },
+        {
+          "name": "국내산 강황",
+          "text": "강황(울금)에 들어 있는 커큐민 성분을 밥에 담았습니다. 노란 빛깔은 강황에서 나옵니다.",
+          "image": "/images/products/turmeric/ing-1.webp"
+        }
+      ],
+      "recommendedFor": [
+        "건강한 식습관을 원하는 분",
+        "자연 유래 원료로 지은 밥을 찾는 분",
+        "온 가족이 함께 먹을 건강한 밥을 찾는 분"
+      ],
       "ingredientsLabel": "쌀(국내산, 친환경) 97%, 강황(국내산) 1.5%, 정제소금",
       "foodType": "즉석조리식품(살균제품)",
       "weight": "200 g",
@@ -23,15 +49,51 @@
       "nutrition": {
         "basis": "1개(200 g)당",
         "rows": [
-          { "name": "나트륨", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "탄수화물", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "당류", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "식이섬유", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "단백질", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "지방", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "포화지방", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "트랜스지방", "amount": "[ ]", "dv": "-" },
-          { "name": "콜레스테롤", "amount": "[ ]", "dv": "[ ]" }
+          {
+            "name": "나트륨",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "탄수화물",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "당류",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "식이섬유",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "단백질",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "지방",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "포화지방",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "트랜스지방",
+            "amount": "[ ]",
+            "dv": "-"
+          },
+          {
+            "name": "콜레스테롤",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          }
         ]
       }
     },
@@ -41,9 +103,35 @@
       "englishName": "Low Sugar Brown Rice",
       "tag": "혈당 관리",
       "tint": "mint",
+      "images": {
+        "main": "/images/products/low-sugar/main.webp",
+        "package": "/images/products/low-sugar/package.webp",
+        "set": "/images/products/low-sugar/set.webp",
+        "ingredient": "/images/products/low-sugar/ing-1.webp"
+      },
       "summary": "바나듐이 함유된 저당현미로 지은, 당을 생각한 밥",
       "description": "무농약 인증 쌀과 바나듐이 함유된 저당현미로 지었습니다. 혈당 관리 식단을 생각하는 분들을 위한 한 끼입니다.",
-      "keyIngredients": ["무농약 인증 쌀", "바나듐 함유 저당현미"],
+      "keyIngredients": [
+        "무농약 인증 쌀",
+        "바나듐 함유 저당현미"
+      ],
+      "ingredientCards": [
+        {
+          "name": "무농약 인증 쌀",
+          "text": "농약을 사용하지 않고 재배한 무농약 인증 쌀을 사용합니다.",
+          "image": "/images/products/low-sugar/ing-0.webp"
+        },
+        {
+          "name": "바나듐 함유 저당현미",
+          "text": "희귀 미네랄 원소인 바나듐이 함유된 저당현미로, 현미의 영양을 그대로 담았습니다.",
+          "image": "/images/products/low-sugar/ing-1.webp"
+        }
+      ],
+      "recommendedFor": [
+        "혈당 관리 식단을 생각하는 분",
+        "탄수화물 섭취를 줄이고 싶은 분",
+        "부모님을 위한 건강한 밥을 찾는 분"
+      ],
       "ingredientsLabel": "[원재료명 및 함량]",
       "foodType": "즉석조리식품(살균제품)",
       "weight": "200 g",
@@ -57,15 +145,51 @@
       "nutrition": {
         "basis": "1개(200 g)당",
         "rows": [
-          { "name": "나트륨", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "탄수화물", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "당류", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "식이섬유", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "단백질", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "지방", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "포화지방", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "트랜스지방", "amount": "[ ]", "dv": "-" },
-          { "name": "콜레스테롤", "amount": "[ ]", "dv": "[ ]" }
+          {
+            "name": "나트륨",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "탄수화물",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "당류",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "식이섬유",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "단백질",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "지방",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "포화지방",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "트랜스지방",
+            "amount": "[ ]",
+            "dv": "-"
+          },
+          {
+            "name": "콜레스테롤",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          }
         ]
       }
     },
@@ -75,9 +199,35 @@
       "englishName": "Low Carb Rice",
       "tag": "탄수화물 조절",
       "tint": "chlorella",
+      "images": {
+        "main": "/images/products/low-carb/main.webp",
+        "package": "/images/products/low-carb/package.webp",
+        "set": "/images/products/low-carb/set.webp",
+        "ingredient": "/images/products/low-carb/ing-1.webp"
+      },
       "summary": "흰강낭콩 추출 파세올라민과 클로렐라를 더한 가벼운 밥",
       "description": "흰강낭콩에서 추출한 파세올라민과 클로렐라를 더해 지었습니다. 탄수화물 섭취를 조절하는 가벼운 식단에 어울립니다.",
-      "keyIngredients": ["파세올라민(흰강낭콩 추출)", "클로렐라"],
+      "keyIngredients": [
+        "파세올라민(흰강낭콩 추출)",
+        "클로렐라"
+      ],
+      "ingredientCards": [
+        {
+          "name": "파세올라민",
+          "text": "흰강낭콩에서 추출한 파세올라민을 더해 지었습니다.",
+          "image": "/images/products/low-carb/ing-0.webp"
+        },
+        {
+          "name": "클로렐라",
+          "text": "클로렐라를 더해 은은한 초록빛의 가벼운 밥으로 완성했습니다.",
+          "image": "/images/products/low-carb/ing-1.webp"
+        }
+      ],
+      "recommendedFor": [
+        "다이어트 중인 분",
+        "탄수화물 섭취를 조절하고 싶은 분",
+        "가벼운 식사를 선호하는 분"
+      ],
       "ingredientsLabel": "[원재료명 및 함량]",
       "foodType": "즉석조리식품(살균제품)",
       "weight": "[중량]",
@@ -91,15 +241,51 @@
       "nutrition": {
         "basis": "[기준량]",
         "rows": [
-          { "name": "나트륨", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "탄수화물", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "당류", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "식이섬유", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "단백질", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "지방", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "포화지방", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "트랜스지방", "amount": "[ ]", "dv": "-" },
-          { "name": "콜레스테롤", "amount": "[ ]", "dv": "[ ]" }
+          {
+            "name": "나트륨",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "탄수화물",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "당류",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "식이섬유",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "단백질",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "지방",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "포화지방",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "트랜스지방",
+            "amount": "[ ]",
+            "dv": "-"
+          },
+          {
+            "name": "콜레스테롤",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          }
         ]
       }
     },
@@ -109,9 +295,34 @@
       "englishName": "Pure Rice",
       "tag": "원재료 그대로",
       "tint": "rice",
+      "images": {
+        "main": "/images/products/pure-rice/main.webp",
+        "package": "/images/products/pure-rice/package.webp",
+        "set": "/images/products/pure-rice/set.webp",
+        "ingredient": "/images/products/pure-rice/ing-0.webp"
+      },
       "summary": "가평 청정지역의 무농약 우렁이 쌀로 지은 밥",
       "description": "우렁이가 잡초와 해충을 잡는 우렁이 농법으로 가평에서 재배한 무농약 쌀로 지었습니다. 원재료 그대로의 맛을 담았습니다.",
-      "keyIngredients": ["가평 무농약 우렁이 쌀"],
+      "keyIngredients": [
+        "가평 무농약 우렁이 쌀"
+      ],
+      "ingredientCards": [
+        {
+          "name": "무농약 우렁이 쌀",
+          "text": "우렁이가 잡초와 해충을 잡는 우렁이 농법으로, 농약 없이 재배한 쌀입니다.",
+          "image": "/images/products/pure-rice/ing-0.webp"
+        },
+        {
+          "name": "가평 청정지역",
+          "text": "맑은 물과 깨끗한 공기, 비옥한 토양이 살아 있는 가평에서 자랐습니다.",
+          "image": "/images/products/pure-rice/ing-1.webp"
+        }
+      ],
+      "recommendedFor": [
+        "원재료 그대로의 밥맛을 찾는 분",
+        "친환경 농산물을 고르는 분",
+        "갓 지은 듯한 밥을 간편하게 먹고 싶은 분"
+      ],
       "ingredientsLabel": "[원재료명 및 함량]",
       "foodType": "즉석조리식품(살균제품)",
       "weight": "200 g",
@@ -125,17 +336,54 @@
       "nutrition": {
         "basis": "1개(200 g)당",
         "rows": [
-          { "name": "나트륨", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "탄수화물", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "당류", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "식이섬유", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "단백질", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "지방", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "포화지방", "amount": "[ ]", "dv": "[ ]" },
-          { "name": "트랜스지방", "amount": "[ ]", "dv": "-" },
-          { "name": "콜레스테롤", "amount": "[ ]", "dv": "[ ]" }
+          {
+            "name": "나트륨",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "탄수화물",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "당류",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "식이섬유",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "단백질",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "지방",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "포화지방",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          },
+          {
+            "name": "트랜스지방",
+            "amount": "[ ]",
+            "dv": "-"
+          },
+          {
+            "name": "콜레스테롤",
+            "amount": "[ ]",
+            "dv": "[ ]"
+          }
         ]
       }
     }
-  ]
+  ],
+  "_imagesNote": "images·ingredientCards[].image는 기존 상세페이지 이미지에서 잘라 낸 임시 사진(저해상도). 원본 사진을 받으면 같은 경로에 교체한다."
 }

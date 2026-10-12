@@ -1,0 +1,414 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Icon from '../components/Icon.astro';
+import Value from '../components/Value.astro';
+import type { Props as IconProps } from '../components/Icon.astro';
+import { SITE, PRODUCTS } from '../data/site';
+
+const types: { title: string; body: string; icon: IconProps['name'] }[] = [
+  { title: '유통·입점', body: '온·오프라인 매장, 건강식품 채널 입점과 납품을 상담합니다.', icon: 'truck' },
+  { title: '급식·단체 납품', body: '기관·기업 급식, 단체 식사에 맞는 수량과 구성을 안내합니다.', icon: 'bowl' },
+  { title: 'OEM 생산', body: '원료와 레시피를 반영한 즉석밥 위탁 생산을 협의합니다.', icon: 'handshake' },
+  { title: '기업·단체 선물', body: '명절·행사용 선물 세트 구성과 대량 구매를 안내합니다.', icon: 'sprout' },
+];
+
+const strengths: { title: string; body: string }[] = [
+  { title: '레토르트 HACCP 생산', body: '레토르트식품 HACCP 기준에 따라 멸균·금속검출 공정을 거쳐 생산합니다.' },
+  { title: '가평 친환경 원료', body: '무농약 인증 쌀, 유기농 인증 찹쌀 등 원료 출처가 분명합니다.' },
+  { title: '목적별 4종 라인업', body: '강황·저당·저탄수·순쌀, 건강 목적에 맞춘 제품을 바로 제안할 수 있습니다.' },
+];
+
+const steps = [
+  { title: '문의 접수', body: '아래 폼이나 전화·이메일로 문의해 주세요.' },
+  { title: '상담·샘플', body: '필요한 제품과 수량을 확인하고 샘플을 안내합니다.' },
+  { title: '조건 협의', body: '수량, 단가, 납기, 포장 사양을 협의합니다.' },
+  { title: '계약', body: '확정된 조건으로 계약을 진행합니다.' },
+  { title: '생산·납품', body: '생산 일정에 맞춰 납품합니다.' },
+];
+
+const facts = [
+  { label: '최소 주문 수량(MOQ)', value: '[MOQ]' },
+  { label: '월 생산 가능량', value: '[생산량]' },
+  { label: '문의 회신', value: '[회신 기간]' },
+];
+---
+<BaseLayout
+  title="B2B 문의"
+  description="다온한끼 유통·급식·OEM·기업 선물 문의. 레토르트 HACCP 시설에서 생산하는 가평 친환경 원료 건강밥 4종의 납품 조건을 안내해 드립니다."
+>
+  <!-- 다크 히어로 -->
+  <section class="bz-hero" aria-labelledby="bz-title">
+    <div class="container bz-hero__inner">
+      <p class="eyebrow bz-hero__eyebrow">For business</p>
+      <h1 class="t-hero-display" id="bz-title">다온한끼와<br />함께할 파트너를 찾습니다</h1>
+      <p class="bz-hero__lead">
+        유통, 급식, OEM, 기업 선물까지. 레토르트 HACCP 시설에서 생산하는 가평 친환경 원료 건강밥을 제안해 드립니다.
+      </p>
+      <div class="bz-hero__actions">
+        <Button href="#contact" variant="on-dark">문의하기</Button>
+        <Button href="#brochure" variant="secondary" class="bz-hero__secondary">소개서 받기</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 협업 유형 4 -->
+  <section class="section" aria-labelledby="types-title">
+    <div class="container">
+      <SectionHeader id="types-title" eyebrow="Partnership" title="이런 협업이 가능합니다" />
+      <ul class="grid-cards bz-types" role="list">
+        {types.map((t) => (
+          <li class="bz-type">
+            <span class="bz-type__icon"><Icon name={t.icon} size={22} /></span>
+            <h3 class="t-heading-4">{t.title}</h3>
+            <p class="t-body-sm">{t.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 강점 3 + 진행 절차 5 -->
+  <section class="section" aria-labelledby="strength-title">
+    <div class="container">
+      <SectionHeader id="strength-title" eyebrow="Why daon meal" title="다온한끼를 제안하는 이유" />
+      <ul class="grid-cards bz-strengths" role="list">
+        {strengths.map((s, i) => (
+          <li class:list={['bz-strength', `bz-strength--${i}`]}>
+            <h3 class="t-heading-3">{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))}
+      </ul>
+      <dl class="bz-facts">
+        {facts.map((f) => (
+          <div>
+            <dt>{f.label}</dt>
+            <dd><Value value={f.value} /></dd>
+          </div>
+        ))}
+      </dl>
+
+      <h3 class="t-heading-2 bz-steps__title" id="steps-title">진행 절차</h3>
+      <ol class="bz-steps" role="list" aria-labelledby="steps-title">
+        {steps.map((s, i) => (
+          <li class="bz-step">
+            <span class="bz-step__number" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h4 class="t-heading-4"><span class="visually-hidden">{i + 1}단계 </span>{s.title}</h4>
+            <p class="t-body-sm">{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 연락처 + 문의 폼 -->
+  <section class="section" id="contact" aria-labelledby="contact-title">
+    <div class="container bz-contact">
+      <div class="bz-contact__info">
+        <p class="eyebrow">Contact</p>
+        <h2 class="t-heading-1" id="contact-title">문의하기</h2>
+        <p class="t-subtitle">남겨 주신 내용을 확인한 뒤 담당자가 연락드립니다.</p>
+        <dl class="bz-contact__list">
+          <div><dt>회사</dt><dd>{SITE.company}</dd></div>
+          <div><dt>전화</dt><dd><a href={`tel:${SITE.phone.replace(/-/g, '')}`}>{SITE.phone}</a></dd></div>
+          <div><dt>이메일</dt><dd><a href={`mailto:${SITE.email}`}>{SITE.email}</a></dd></div>
+          <div><dt>주소</dt><dd>{SITE.address}</dd></div>
+        </dl>
+      </div>
+
+      {/* TODO: 전송 방식(폼 서비스 또는 서버 함수) 확정 후 action/endpoint 연결. 지금은 화면만 동작한다. */}
+      <form class="bz-form" id="b2b-form" novalidate data-endpoint="">
+        <div class="field-row">
+          <div class="field">
+            <label for="f-company">회사명 <span class="req" aria-hidden="true">*</span></label>
+            <input id="f-company" name="company" type="text" autocomplete="organization" required />
+          </div>
+          <div class="field">
+            <label for="f-name">담당자명 <span class="req" aria-hidden="true">*</span></label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-phone">연락처 <span class="req" aria-hidden="true">*</span></label>
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="010-0000-0000" required />
+          </div>
+          <div class="field">
+            <label for="f-email">이메일 <span class="req" aria-hidden="true">*</span></label>
+            <input id="f-email" name="email" type="email" autocomplete="email" placeholder="name@company.com" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-type">협업 유형 <span class="req" aria-hidden="true">*</span></label>
+          <select id="f-type" name="type" required>
+            <option value="">선택해 주세요</option>
+            {types.map((t) => <option value={t.title}>{t.title}</option>)}
+            <option value="기타">기타</option>
+          </select>
+        </div>
+        <fieldset class="field">
+          <legend>관심 제품</legend>
+          <div class="checks">
+            {PRODUCTS.map((p) => (
+              <label class="check">
+                <input type="checkbox" name="products" value={p.slug} />
+                <span>{p.name}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="f-qty">예상 수량</label>
+          <input id="f-qty" name="quantity" type="text" placeholder="예: 월 1,000개" />
+        </div>
+        <div class="field">
+          <label for="f-message">문의 내용 <span class="req" aria-hidden="true">*</span></label>
+          <textarea id="f-message" name="message" rows="6" required></textarea>
+        </div>
+
+        <div class="consent">
+          <label class="check">
+            <input type="checkbox" name="privacy" required aria-describedby="privacy-detail" />
+            <span>개인정보 수집·이용에 동의합니다 <span class="req" aria-hidden="true">*</span></span>
+          </label>
+          <details id="privacy-detail" class="consent__detail">
+            <summary>내용 보기</summary>
+            <ul>
+              <li>수집 항목: 회사명, 담당자명, 연락처, 이메일, 문의 내용</li>
+              <li>이용 목적: B2B 문의 확인 및 회신</li>
+              <li>보유 기간: <span class="tbd">[보유 기간]</span></li>
+              <li>동의를 거부할 수 있으며, 거부 시 문의 접수가 제한됩니다.</li>
+            </ul>
+          </details>
+        </div>
+
+        <p class="t-caption"><span aria-hidden="true">*</span> 표시는 필수 항목입니다.</p>
+        <Button type="submit" variant="primary" class="bz-form__submit">문의 보내기</Button>
+        <div class="bz-form__status" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- 소개서 다운로드 -->
+  <section class="section" id="brochure" aria-labelledby="brochure-title">
+    <div class="container">
+      <div class="bz-brochure">
+        <div>
+          <p class="eyebrow bz-brochure__eyebrow">Brochure</p>
+          <h2 class="t-heading-2" id="brochure-title">회사·제품 소개서</h2>
+          <p>제품 4종 사양, 생산 시설, 인증 정보를 한 번에 확인하세요.</p>
+        </div>
+        {/* TODO: 소개서 PDF가 준비되면 /public/docs/ 에 넣고 Button(download)으로 바꾼다. */}
+        <span class="bz-brochure__pending">[소개서 PDF 준비 중]</span>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { SITE } from '../data/site';
+
+  const form = document.getElementById('b2b-form') as HTMLFormElement | null;
+  const status = form?.querySelector<HTMLElement>('.bz-form__status');
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      const firstInvalid = form.querySelector<HTMLElement>(':invalid');
+      form.classList.add('was-validated');
+      firstInvalid?.focus();
+      if (status) status.textContent = '필수 항목을 확인해 주세요.';
+      return;
+    }
+    // 전송 방식이 정해지기 전까지는 보내지 않고 안내만 한다.
+    if (status) {
+      status.innerHTML = '';
+      const p = document.createElement('p');
+      p.append('온라인 접수는 준비 중입니다. 작성하신 내용을 ');
+      const a = document.createElement('a');
+      a.href = `mailto:${SITE.email}`;
+      a.textContent = SITE.email;
+      p.append(a, ' 로 보내 주시거나 ', SITE.phone, '으로 연락 주세요.');
+      status.append(p);
+    }
+  });
+</script>
+
+<style>
+  /* Hero */
+  .bz-hero { padding-block: var(--space-24); background: var(--color-primary); color: var(--color-on-dark); }
+  .bz-hero__inner { display: grid; gap: var(--space-5); justify-items: start; }
+  .bz-hero__eyebrow { color: var(--color-brand-turmeric); }
+  .bz-hero__lead { max-width: 640px; color: var(--color-on-dark-muted); font-size: var(--text-subtitle); line-height: 1.6; }
+  .bz-hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-2); }
+  .bz-hero :global(.bz-hero__secondary) { color: var(--color-on-dark); border-color: var(--color-charcoal); }
+  .bz-hero :global(.bz-hero__secondary:hover) { border-color: var(--color-on-dark); }
+
+  /* Types */
+  .bz-types { margin: 0; }
+  .bz-type {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    padding: 28px;
+    border: 1px solid var(--color-hairline-soft);
+    border-radius: var(--rounded-xl);
+  }
+  .bz-type p { color: var(--color-slate); }
+  .bz-type__icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-bottom: var(--space-2);
+    border-radius: var(--rounded-full);
+    background: var(--color-leaf-light);
+    color: var(--color-leaf-dark);
+  }
+
+  /* Strengths */
+  .bz-strengths { margin: 0; }
+  .bz-strength {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    min-height: 220px;
+    padding: 36px;
+    border-radius: var(--rounded-xxxl);
+  }
+  .bz-strength--0 { background: var(--color-leaf-light); color: var(--color-leaf-dark); }
+  .bz-strength--1 { background: var(--color-turmeric-light); color: var(--color-turmeric-dark); }
+  .bz-strength--2 { background: var(--color-surface); color: var(--color-slate); }
+  .bz-strength h3 { color: var(--color-ink); }
+
+  .bz-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+    padding: var(--space-6);
+    border: 1px solid var(--color-hairline-soft);
+    border-radius: var(--rounded-xl);
+  }
+  .bz-facts dt { color: var(--color-steel); font-size: var(--text-caption); }
+  .bz-facts dd { font-size: var(--text-heading-4); font-weight: var(--weight-semibold); }
+
+  .bz-steps__title { margin-top: var(--space-16); margin-bottom: var(--space-6); }
+  .bz-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: var(--space-4);
+    margin: 0;
+  }
+  .bz-step {
+    display: grid;
+    gap: var(--space-2);
+    align-content: start;
+    padding: 24px;
+    border: 1px solid var(--color-hairline-soft);
+    border-radius: var(--rounded-xxl);
+  }
+  .bz-step__number {
+    font-size: 32px;
+    font-weight: var(--weight-semibold);
+    letter-spacing: -1px;
+    line-height: 1;
+    color: var(--color-turmeric-text);
+  }
+  .bz-step p { color: var(--color-slate); }
+
+  /* Contact */
+  .bz-contact {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: var(--space-12);
+    align-items: start;
+  }
+  .bz-contact__info { display: grid; gap: var(--space-4); }
+  .bz-contact__list { display: grid; gap: var(--space-3); margin-top: var(--space-4); }
+  .bz-contact__list div { display: grid; grid-template-columns: 64px 1fr; gap: var(--space-3); }
+  .bz-contact__list dt { color: var(--color-steel); }
+  .bz-contact__list a { color: var(--color-leaf); font-weight: var(--weight-medium); text-underline-offset: 3px; }
+
+  .bz-form {
+    display: grid;
+    gap: var(--space-5);
+    padding: var(--space-10);
+    border: 1px solid var(--color-hairline-soft);
+    border-radius: var(--rounded-xxl);
+  }
+  .field-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: var(--space-5); }
+  .field { display: grid; gap: var(--space-2); margin: 0; padding: 0; border: 0; min-width: 0; }
+  .field label, .field legend { font-size: var(--text-body-sm); font-weight: var(--weight-medium); padding: 0; }
+  .req { color: var(--color-leaf); }
+  input[type='text'], input[type='tel'], input[type='email'], select, textarea {
+    width: 100%;
+    height: 48px;
+    padding: 0 16px;
+    border: 1px solid var(--color-hairline-strong);
+    border-radius: var(--rounded-md);
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font: inherit;
+    font-size: 16px;
+  }
+  textarea { height: auto; padding: 12px 16px; resize: vertical; }
+  input::placeholder, textarea::placeholder { color: var(--color-placeholder); }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--color-leaf); outline-offset: 0; border-color: transparent; }
+  .was-validated :invalid { border-color: var(--color-error); }
+  .checks { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); }
+  .check { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--touch-min); cursor: pointer; }
+  .check input { width: 20px; height: 20px; margin: 0; accent-color: var(--color-primary); flex: none; }
+  .was-validated .check input:invalid { outline: 2px solid var(--color-error); outline-offset: 2px; }
+  .consent { display: grid; gap: var(--space-1); padding-top: var(--space-2); border-top: 1px solid var(--color-hairline-soft); }
+  .consent__detail summary {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    color: var(--color-steel);
+    font-size: var(--text-caption);
+    cursor: pointer;
+  }
+  .consent__detail ul { margin: 0; padding-left: 20px; color: var(--color-slate); font-size: var(--text-caption); line-height: 1.8; }
+  .bz-form :global(.bz-form__submit) { justify-self: start; }
+  .bz-form__status { font-size: var(--text-body-sm); }
+  .bz-form__status :global(p) {
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--rounded-xl);
+    background: var(--color-leaf-light);
+    color: var(--color-leaf-dark);
+  }
+  .bz-form__status :global(a) { color: inherit; font-weight: var(--weight-semibold); }
+
+  /* Brochure */
+  .bz-brochure {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding: 48px 40px;
+    border-radius: var(--rounded-feature);
+    background: var(--color-primary);
+    color: var(--color-on-dark-muted);
+  }
+  .bz-brochure h2 { color: var(--color-on-dark); margin: var(--space-2) 0; }
+  .bz-brochure__eyebrow { color: var(--color-brand-turmeric); }
+  .bz-brochure__pending {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--touch-min);
+    padding: 0 24px;
+    border: 1px dashed var(--color-on-dark-muted);
+    border-radius: var(--rounded-full);
+  }
+
+  @media (max-width: 767px) {
+    .bz-hero { padding-block: var(--space-16); }
+    .bz-contact { grid-template-columns: 1fr; }
+    .bz-form { padding: var(--space-6) var(--space-5); }
+    .bz-brochure { padding: 36px 24px; }
+  }
+</style>
