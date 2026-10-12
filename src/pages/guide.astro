@@ -1,0 +1,306 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import PhotoPlaceholder from '../components/PhotoPlaceholder.astro';
+import Icon from '../components/Icon.astro';
+import guides from '../data/guides.json';
+import { PRODUCTS, isTbd } from '../data/site';
+
+interface Article {
+  slug: string;
+  topic: string;
+  title: string;
+  summary: string;
+  product: string | null;
+  href: string;
+}
+
+const featured = guides.featured as Article;
+const articles = guides.articles as Article[];
+const topics = ['전체', ...guides.topics];
+const productOf = (slug: string | null) => PRODUCTS.find((p) => p.slug === slug);
+---
+<BaseLayout
+  title="식단 가이드"
+  description="다온한끼 제품 고르는 법, 맛있게 데우는 법, 원료 이야기. 내 몸에 맞는 한 끼를 위한 식단 가이드."
+>
+  <!-- 히어로 -->
+  <section class="gd-hero" aria-labelledby="gd-title">
+    <div class="container gd-hero__inner">
+      <p class="eyebrow">Meal guide</p>
+      <h1 class="t-hero-display" id="gd-title">내 몸에 맞는<br />한 끼 가이드</h1>
+      <p class="t-subtitle">
+        어떤 밥을 고를지, 어떻게 데우면 맛있는지, 원료는 어디서 오는지. 매일의 한 끼를 위한 이야기를 모았습니다.
+      </p>
+    </div>
+  </section>
+
+  <!-- 추천 글 (가로형) -->
+  <section class="container" aria-labelledby="featured-title">
+    <article class="gd-featured">
+      <PhotoPlaceholder class="gd-featured__photo" label="다온한끼 4종" ratio="16 / 10" icon="bowl" tone="turmeric" />
+      <div class="gd-featured__copy">
+        <p class="gd-topic">추천 · {featured.topic}</p>
+        <h2 class="t-heading-1" id="featured-title">{featured.title}</h2>
+        <p class="t-subtitle">{featured.summary}</p>
+        <Button href={featured.href} variant="primary">비교표 보기</Button>
+      </div>
+    </article>
+  </section>
+
+  <!-- 주제 필터 + 글 그리드 -->
+  <section class="section" aria-labelledby="articles-title">
+    <div class="container">
+      <SectionHeader id="articles-title" eyebrow="Articles" title="주제별로 읽어보기" />
+      <div class="filter" role="group" aria-label="주제별로 글 보기">
+        {topics.map((t, i) => (
+          <button type="button" class="pill-tab" data-filter={t} aria-pressed={i === 0 ? 'true' : 'false'}>{t}</button>
+        ))}
+      </div>
+      <p class="visually-hidden" aria-live="polite" id="article-status"></p>
+
+      <ul class="grid-cards gd-articles" role="list">
+        {articles.map((a) => {
+          const product = productOf(a.product);
+          const pending = !a.href;
+          return (
+            <li class:list={['gd-card', { 'gd-card--pending': pending }]} data-topic={a.topic}>
+              <div class="gd-card__meta">
+                <span class="gd-topic">{a.topic}</span>
+                {product && <span class={`gd-product tint-${product.tint}`}>{product.name}</span>}
+              </div>
+              <h3 class="t-heading-4">
+                {pending ? (
+                  <span class="tbd">{a.title}</span>
+                ) : (
+                  <a href={a.href} class="gd-card__link">{a.title}</a>
+                )}
+              </h3>
+              <p class="t-body-sm">{isTbd(a.summary) ? <span class="tbd">{a.summary}</span> : a.summary}</p>
+              <span class="gd-card__more" aria-hidden="true">{pending ? '준비 중' : '읽어보기 →'}</span>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 밥 추천 파인더 -->
+  <section class="section" id="finder" aria-labelledby="finder-title">
+    <div class="container">
+      <div class="finder">
+        <div class="finder__head">
+          <p class="eyebrow">Rice finder</p>
+          <h2 class="t-heading-1" id="finder-title">어떤 한 끼가 맞을까요?</h2>
+          <p class="t-subtitle">요즘 식단에서 가장 신경 쓰는 것을 골라 주세요.</p>
+        </div>
+        <form class="finder__form" id="finder-form">
+          <fieldset>
+            <legend class="visually-hidden">가장 신경 쓰는 것</legend>
+            {PRODUCTS.map((p, i) => (
+              <label class="finder__option">
+                <input type="radio" name="purpose" value={p.slug} checked={i === 0} />
+                <span>
+                  <strong>{p.tag}</strong>
+                  <span class="t-caption">{p.keyIngredients.join(' · ')}</span>
+                </span>
+              </label>
+            ))}
+          </fieldset>
+        </form>
+        <div class="finder__results" aria-live="polite">
+          {PRODUCTS.map((p, i) => (
+            <div class={`finder__result tint-${p.tint}`} data-result={p.slug} hidden={i !== 0}>
+              <p class="finder__label">추천하는 밥</p>
+              <p class="t-heading-2">{p.name}</p>
+              <p>{p.summary}</p>
+              <a href={`/products/${p.slug}`} class="finder__link">{p.name} 자세히 보기 →</a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 건강정보 고지 -->
+  <section class="section" aria-labelledby="notice-title">
+    <div class="container">
+      <aside class="gd-notice" aria-labelledby="notice-title">
+        <span class="gd-notice__icon"><Icon name="shield" size={20} /></span>
+        <div>
+          <h2 class="t-heading-4" id="notice-title">건강정보 이용 안내</h2>
+          <p>
+            이 페이지의 내용은 일반적인 식생활 정보이며 의학적 진단이나 처방을 대신하지 않습니다.
+            다온한끼는 식품이며, 질병의 예방 및 치료를 위한 의약품이 아닙니다.
+            질환이 있거나 식이 조절이 필요하다면 의사·영양사와 상담하세요.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // 주제 필터
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter .pill-tab');
+  const cards = document.querySelectorAll<HTMLElement>('.gd-articles .gd-card');
+  const status = document.getElementById('article-status');
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const filter = button.dataset.filter;
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+      let shown = 0;
+      cards.forEach((card) => {
+        const match = filter === '전체' || card.dataset.topic === filter;
+        card.hidden = !match;
+        if (match) shown += 1;
+      });
+      if (status) status.textContent = `${filter}: 글 ${shown}개`;
+    });
+  });
+
+  // 밥 추천 파인더
+  const form = document.getElementById('finder-form');
+  const results = document.querySelectorAll<HTMLElement>('.finder__result');
+  form?.addEventListener('change', (e) => {
+    const value = (e.target as HTMLInputElement).value;
+    results.forEach((r) => (r.hidden = r.dataset.result !== value));
+  });
+</script>
+
+<style>
+  .gd-hero { padding-block: var(--space-24) var(--space-12); }
+  .gd-hero__inner { display: grid; gap: var(--space-5); }
+  .gd-hero .t-subtitle { max-width: 640px; }
+
+  /* Featured */
+  .gd-featured {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-8) var(--space-12);
+    padding: var(--space-6);
+    border: 1px solid var(--color-hairline-soft);
+    border-radius: var(--rounded-feature);
+  }
+  .gd-featured :global(.gd-featured__photo) { flex: 1 1 420px; }
+  .gd-featured__copy { flex: 1 1 400px; display: grid; gap: var(--space-4); justify-items: start; padding-block: var(--space-4); }
+
+  .gd-topic {
+    color: var(--color-leaf);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+  }
+
+
+  /* Article cards */
+  .gd-articles { margin: 0; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+  .gd-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: 28px;
+    border: 1px solid var(--color-hairline-soft);
+    border-radius: var(--rounded-xl);
+    background: var(--color-canvas);
+  }
+  .gd-card[hidden] { display: none; }
+  .gd-card--pending { background: var(--color-surface-soft); }
+  .gd-card__meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+  .gd-product {
+    padding: 2px 10px;
+    border-radius: var(--rounded-full);
+    background: var(--tint-bg);
+    color: var(--tint-ink);
+    font-size: 12px;
+    font-weight: var(--weight-semibold);
+  }
+  .gd-card p { color: var(--color-slate); flex: 1; }
+  .gd-card__link { text-decoration: none; }
+  .gd-card__link::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+  .gd-card__link:focus-visible { outline: none; }
+  .gd-card:has(.gd-card__link:focus-visible) { outline: 2px solid var(--color-leaf); outline-offset: 3px; }
+  .gd-card:has(.gd-card__link):hover { border-color: var(--color-hairline-strong); }
+  .gd-card__more { color: var(--color-leaf); font-size: 15px; font-weight: var(--weight-semibold); }
+  .gd-card--pending .gd-card__more { color: var(--color-steel); }
+
+  /* Finder */
+  .finder {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    gap: var(--space-8);
+    padding: var(--space-12) var(--space-10);
+    border-radius: var(--rounded-feature);
+    background: var(--color-surface);
+  }
+  .finder__head { grid-column: 1 / -1; display: grid; gap: var(--space-3); }
+  fieldset { display: grid; gap: var(--space-3); margin: 0; padding: 0; border: 0; }
+  .finder__option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    min-height: 64px;
+    padding: var(--space-4) var(--space-5);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-xl);
+    background: var(--color-canvas);
+    cursor: pointer;
+  }
+  .finder__option:has(input:checked) { border-color: var(--color-primary); box-shadow: inset 0 0 0 1px var(--color-primary); }
+  .finder__option:has(input:focus-visible) { outline: 2px solid var(--color-leaf); outline-offset: 3px; }
+  .finder__option input { width: 20px; height: 20px; margin: 0; accent-color: var(--color-primary); flex: none; }
+  .finder__option > span { display: grid; }
+  .finder__option strong { font-weight: var(--weight-semibold); }
+  .finder__result {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    height: 100%;
+    min-height: 280px;
+    padding: 36px;
+    border-radius: var(--rounded-xxxl);
+    background: var(--tint-bg);
+    color: var(--tint-ink);
+  }
+  .finder__result[hidden] { display: none; }
+  .finder__result .t-heading-2 { color: var(--color-ink); }
+  .finder__label { font-size: var(--text-caption); font-weight: var(--weight-semibold); }
+  .finder__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--touch-min);
+    color: var(--color-ink);
+    font-weight: var(--weight-semibold);
+    text-underline-offset: 4px;
+  }
+
+  /* Notice */
+  .gd-notice {
+    display: flex;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-xl);
+    background: var(--color-surface-soft);
+  }
+  .gd-notice p { margin-top: var(--space-2); color: var(--color-slate); font-size: var(--text-body-sm); }
+  .gd-notice__icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--rounded-full);
+    background: var(--color-leaf-light);
+    color: var(--color-leaf-dark);
+  }
+
+  @media (max-width: 767px) {
+    .gd-hero { padding-block: var(--space-16) var(--space-8); }
+    .gd-featured { padding: var(--space-4); }
+    .finder { padding: var(--space-8) var(--space-5); }
+    .finder__result { padding: 28px; min-height: 0; }
+  }
+</style>

@@ -13,6 +13,7 @@ npm run check    # 타입 검사
 - `src/styles/tokens.css` — 디자인 토큰(CSS 변수). 색·글꼴·라운드·간격은 여기서만 정의
 - `src/data/products.json` — 제품 4종 단일 데이터 (홈·상세·비교표 공용)
 - `src/data/site.ts` — 회사 정보, 메뉴, 구매처 링크
+- `src/data/guides.json` — 식단 가이드 글 목록 (href 비면 준비 중)
 - `src/components/` — Nav, Footer, Button, Badge, ProductCard, StepCard, CtaBanner, FaqItem, TrustStrip, CompareTable
 - `src/pages/index.astro` — 홈
 
@@ -20,7 +21,7 @@ npm run check    # 타입 검사
 - [x] 기반(토큰·공통 컴포넌트·데이터) / 홈 `/`
 - [x] 제품 상세 `/products/[slug]` ×4 (turmeric · low-sugar · low-carb · pure-rice)
 - [x] 안심 공정 `/process`, 브랜드 스토리 `/story`
-- [ ] 식단 가이드 `/guide`, B2B `/b2b` (폼 전송 방식 미정)
+- [x] 식단 가이드 `/guide`, B2B `/b2b` (폼은 화면만 — 전송 방식 미정, `b2b.astro`의 `data-endpoint` TODO)
 - [ ] 개인정보 처리방침 `/privacy`
 
 ## 오픈 전 채울 값 (`[ ]` 표시)

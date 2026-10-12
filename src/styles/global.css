@@ -199,3 +199,29 @@ button {
 .tint-mint { --tint-bg: var(--color-product-mint); --tint-ink: var(--color-product-mint-ink); }
 .tint-chlorella { --tint-bg: var(--color-product-chlorella); --tint-ink: var(--color-product-chlorella-ink); }
 .tint-rice { --tint-bg: var(--color-product-rice); --tint-ink: var(--color-product-rice-ink); }
+
+/* ---------- Pill tab (필터) ---------- */
+.pill-tab {
+  min-height: var(--touch-min);
+  padding: 10px 18px;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--rounded-full);
+  background: var(--color-canvas);
+  color: var(--color-slate);
+  font-size: 15px;
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+}
+.pill-tab:hover { border-color: var(--color-hairline-strong); color: var(--color-ink); }
+.pill-tab[aria-pressed='true'] {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-8);
+}
