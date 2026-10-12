@@ -19,7 +19,7 @@ export const SITE = {
 
 export const NAV = [
   { href: '/story', label: '브랜드 스토리' },
-  { href: '/#products', label: '제품' },
+  { href: '/#products', label: '제품', match: '/products' },
   { href: '/process', label: '안심 공정' },
   { href: '/guide', label: '식단 가이드' },
   { href: '/b2b', label: 'B2B 문의', muted: true },
@@ -36,6 +36,8 @@ export interface Product {
   summary: string;
   description: string;
   keyIngredients: string[];
+  ingredientCards: { name: string; text: string }[];
+  recommendedFor: string[];
   ingredientsLabel: string;
   foodType: string;
   weight: string;

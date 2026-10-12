@@ -1,0 +1,455 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Badge from '../../components/Badge.astro';
+import Button from '../../components/Button.astro';
+import ProductPhoto from '../../components/ProductPhoto.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import StepCard from '../../components/StepCard.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import Value from '../../components/Value.astro';
+import Icon from '../../components/Icon.astro';
+import { PRODUCTS, purchaseHref, type Product } from '../../data/site';
+
+export function getStaticPaths() {
+  return PRODUCTS.map((product) => ({ params: { slug: product.slug }, props: { product } }));
+}
+
+interface Props { product: Product }
+const { product } = Astro.props;
+const others = PRODUCTS.filter((p) => p.slug !== product.slug);
+
+const specs = [
+  { label: '식품 유형', value: product.foodType },
+  { label: '내용량', value: product.weight },
+  { label: '열량', value: product.calories },
+  { label: '구성', value: product.pack },
+  { label: '원재료명', value: product.ingredientsLabel },
+  { label: '보관', value: product.storage },
+  { label: '품목보고번호', value: product.reportNumber },
+];
+
+const gallery = ['밥', '패키지', '원료', '구성'];
+
+const anchors = [
+  { href: '#ingredients', label: '원료' },
+  { href: '#recommend', label: '추천 대상' },
+  { href: '#nutrition', label: '영양정보' },
+  { href: '#cooking', label: '조리 방법' },
+];
+---
+<BaseLayout
+  title={product.name}
+  description={`${product.name} — ${product.summary}. 레토르트 HACCP 시설에서 생산하고 전자레인지 2분이면 완성되는 다온한끼 건강밥.`}
+>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="현재 위치">
+      <ol role="list">
+        <li><a href="/">홈</a></li>
+        <li><a href="/#products">제품</a></li>
+        <li><span aria-current="page">{product.name}</span></li>
+      </ol>
+    </nav>
+  </div>
+
+  <!-- 갤러리 + 정보 -->
+  <section class={`pd-hero tint-${product.tint}`} aria-labelledby="product-title">
+    <div class="container pd-hero__inner">
+      <div class="pd-gallery">
+        <div class="pd-gallery__main">
+          <ProductPhoto tint={product.tint} name={product.name} />
+        </div>
+        <ul class="pd-gallery__thumbs" role="list" aria-label="추가 사진 (준비 중)">
+          {gallery.map((label) => (
+            <li class="pd-gallery__thumb"><span role="img" aria-label={`${label} 사진 자리 (실제 사진으로 교체 예정)`}>[{label}]</span></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="pd-info">
+        <div class="pd-info__badges">
+          <span class="pd-info__tag">{product.tag}</span>
+          <Badge variant="trust">레토르트 HACCP</Badge>
+        </div>
+        <p class="pd-info__en">{product.englishName}</p>
+        <h1 class="t-display-lg" id="product-title">{product.name}</h1>
+        <p class="t-subtitle">{product.description}</p>
+
+        <dl class="pd-specs">
+          {specs.map((s) => (
+            <div class="pd-specs__row">
+              <dt>{s.label}</dt>
+              <dd><Value value={s.value} /></dd>
+            </div>
+          ))}
+        </dl>
+
+        <p class="pd-price">
+          <span class="pd-price__label">판매가</span>
+          <span class="pd-price__value"><Value value={product.price} /></span>
+        </p>
+
+        <div class="pd-actions">
+          <Button href={purchaseHref(product)} variant="buy">구매처 보기</Button>
+          <Button href="/#compare" variant="secondary">4종 비교하기</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 앵커 탭 -->
+  <nav class="pd-tabs" aria-label="제품 정보 바로가기">
+    <div class="container">
+      <ul role="list">
+        {anchors.map((a) => <li><a href={a.href} class="pd-tabs__link">{a.label}</a></li>)}
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 원료 -->
+  <section class="section" id="ingredients" aria-labelledby="ingredients-title">
+    <div class="container">
+      <SectionHeader id="ingredients-title" eyebrow="Ingredients" title="무엇으로 지었나요" />
+      <div class="grid-cards pd-ingredients">
+        {product.ingredientCards.map((card) => (
+          <article class={`pd-ingredient tint-${product.tint}`}>
+            <div class="pd-ingredient__photo" role="img" aria-label={`${card.name} 사진 자리 (실제 사진으로 교체 예정)`}>
+              <Icon name="sprout" size={40} />
+              <span>[{card.name} 사진]</span>
+            </div>
+            <h3 class="t-heading-3">{card.name}</h3>
+            <p>{card.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 추천 대상 -->
+  <section class="section" id="recommend" aria-labelledby="recommend-title">
+    <div class="container">
+      <SectionHeader id="recommend-title" eyebrow="For you" title="이런 분께 추천합니다" />
+      <ul class="grid-cards pd-recommend" role="list">
+        {product.recommendedFor.map((item) => (
+          <li class="pd-recommend__item">
+            <span class="pd-recommend__icon"><Icon name="check" size={20} /></span>
+            <span class="t-heading-4">{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 영양정보 -->
+  <section class="section" id="nutrition" aria-labelledby="nutrition-title">
+    <div class="container pd-nutrition">
+      <SectionHeader id="nutrition-title" eyebrow="Nutrition" title="영양정보" />
+      <div class="pd-nutrition__table">
+        <div class="pd-nutrition__head">
+          <span>{product.name} 영양정보</span>
+          <span class="t-caption">
+            총 내용량 <Value value={product.weight} /> · <Value value={product.calories} />
+          </span>
+        </div>
+        <table>
+          <caption class="visually-hidden">{product.name} 영양정보</caption>
+          <thead>
+            <tr>
+              <th scope="col"><Value value={product.nutrition.basis} /></th>
+              <th scope="col" class="num">함량</th>
+              <th scope="col" class="num">1일 영양성분 기준치에 대한 비율</th>
+            </tr>
+          </thead>
+          <tbody>
+            {product.nutrition.rows.map((row) => (
+              <tr>
+                <th scope="row">{row.name}</th>
+                <td class="num"><Value value={row.amount} /></td>
+                <td class="num"><Value value={row.dv} /></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="t-caption pd-note">
+        1일 영양성분 기준치에 대한 비율(%)은 2,000 kcal 기준이므로 개인의 필요 열량에 따라 다를 수 있습니다.
+      </p>
+    </div>
+  </section>
+
+  <!-- 조리 -->
+  <section class="section" id="cooking" aria-labelledby="cooking-title">
+    <div class="container">
+      <SectionHeader
+        id="cooking-title"
+        eyebrow="How to cook"
+        title="전자레인지 2분이면 완성"
+        subtitle="실온에 보관하다가 필요할 때 바로 데워 드세요."
+      />
+      <ol class="grid-cards" role="list">
+        <StepCard number="01" title="개봉하기" icon="check">
+          포장의 개봉선을 따라 개봉해 주세요.
+        </StepCard>
+        <StepCard number="02" title="전자레인지에 넣기" icon="microwave">
+          개봉한 그대로 전자레인지에 넣어 주세요.
+        </StepCard>
+        <StepCard number="03" title="2분 데우기" icon="bowl">
+          700W 기준 2분간 데우면 따뜻한 한 끼가 완성됩니다.
+        </StepCard>
+      </ol>
+      <p class="pd-tip">
+        <strong>TIP</strong>
+        <span>기호에 따라 30초~1분 정도 더 데우면 더욱 맛있게 드실 수 있습니다. 전자레인지 사양에 따라 시간은 달라질 수 있습니다.</span>
+      </p>
+      <p class="t-caption pd-note">본 제품은 식품이며, 질병의 예방 및 치료를 위한 의약품이 아닙니다.</p>
+    </div>
+  </section>
+
+  <!-- 다른 제품 -->
+  <section class="section" aria-labelledby="others-title">
+    <div class="container">
+      <SectionHeader id="others-title" eyebrow="More" title="다른 다온한끼도 만나보세요" />
+      <div class="grid-cards">
+        {others.map((p) => <ProductCard product={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <CtaBanner
+    headingId="cta-title"
+    title={`${product.name}, 우리 집 식탁에`}
+    subtitle="구매처에서 다온한끼를 만나보세요. 납품·OEM 문의도 받고 있습니다."
+  >
+    <Button href={purchaseHref(product)} variant="buy">구매처 보기</Button>
+    <Button href="/b2b" variant="on-dark">B2B 문의</Button>
+  </CtaBanner>
+</BaseLayout>
+
+<style>
+  /* Breadcrumb */
+  .breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0;
+    padding-block: var(--space-4);
+    font-size: 14px;
+    color: var(--color-steel);
+  }
+  .breadcrumb li:not(:last-child)::after {
+    content: '/';
+    margin-inline: var(--space-2);
+    color: var(--color-hairline-strong);
+  }
+  .breadcrumb a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--touch-min);
+    color: var(--color-steel);
+    text-underline-offset: 3px;
+  }
+  .breadcrumb a:hover { color: var(--color-ink); }
+  .breadcrumb [aria-current] { color: var(--color-ink); font-weight: var(--weight-medium); }
+
+  /* Hero */
+  .pd-hero { padding-block: var(--space-6) var(--space-16); }
+  .pd-hero__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--space-12);
+  }
+  .pd-gallery { flex: 1 1 460px; display: grid; gap: var(--space-3); }
+  .pd-gallery__main {
+    padding: var(--space-4);
+    border-radius: var(--rounded-feature);
+    background: var(--tint-bg);
+    box-shadow: var(--shadow-photo);
+  }
+  .pd-gallery__main :global(.product-photo) { aspect-ratio: 1 / 1; }
+  .pd-gallery__thumbs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+    margin: 0;
+  }
+  .pd-gallery__thumb {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--rounded-lg);
+    border: 1px solid var(--color-hairline-soft);
+    background: var(--color-surface);
+    color: var(--color-steel);
+    font-size: var(--text-caption);
+  }
+
+  .pd-info { flex: 1 1 440px; display: grid; gap: var(--space-4); }
+  .pd-info__badges { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .pd-info__tag {
+    padding: 4px 12px;
+    border-radius: var(--rounded-full);
+    background: var(--tint-bg);
+    color: var(--tint-ink);
+    font-size: 13px;
+    font-weight: var(--weight-semibold);
+    line-height: 1.4;
+  }
+  .pd-info__en {
+    margin-top: var(--space-2);
+    color: var(--color-steel);
+    font-size: 14px;
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.5px;
+  }
+
+  .pd-specs {
+    margin-top: var(--space-2);
+    border-top: 1px solid var(--color-hairline);
+  }
+  .pd-specs__row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: var(--space-4);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--color-hairline-soft);
+    font-size: var(--text-body-sm);
+  }
+  .pd-specs dt { color: var(--color-steel); }
+  .pd-specs dd { color: var(--color-body-strong); }
+
+  .pd-price {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-top: var(--space-2);
+  }
+  .pd-price__label { color: var(--color-steel); font-size: var(--text-body-sm); }
+  .pd-price__value { font-size: var(--text-heading-2); font-weight: var(--weight-semibold); letter-spacing: -1px; }
+  .pd-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+  .pd-actions :global(.btn) { flex: 1 1 180px; }
+
+  /* Anchor tabs */
+  .pd-tabs {
+    position: sticky;
+    top: 64px;
+    z-index: 40;
+    background: var(--color-canvas);
+    border-bottom: 1px solid var(--color-hairline-soft);
+  }
+  .pd-tabs ul {
+    display: flex;
+    gap: var(--space-2);
+    margin: 0;
+    padding-block: var(--space-2);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .pd-tabs__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--touch-min);
+    padding: 10px 18px;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-full);
+    color: var(--color-slate);
+    font-size: 15px;
+    font-weight: var(--weight-medium);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .pd-tabs__link:hover { border-color: var(--color-hairline-strong); color: var(--color-ink); }
+
+  /* Ingredients */
+  .pd-ingredients { grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+  .pd-ingredient {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    min-height: 280px;
+    padding: 36px;
+    border-radius: var(--rounded-xxxl);
+    background: var(--tint-bg);
+    color: var(--tint-ink);
+  }
+  .pd-ingredient h3 { color: var(--color-ink); margin-top: var(--space-2); }
+  .pd-ingredient__photo {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: var(--space-2);
+    aspect-ratio: 16 / 9;
+    border-radius: var(--rounded-xxl);
+    background: rgba(255, 255, 255, 0.55);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-medium);
+  }
+
+  /* Recommend */
+  .pd-recommend { margin: 0; }
+  .pd-recommend__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: 28px;
+    border: 1px solid var(--color-hairline-soft);
+    border-radius: var(--rounded-xl);
+    background: var(--color-canvas);
+  }
+  .pd-recommend__icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--rounded-full);
+    background: var(--color-leaf-light);
+    color: var(--color-leaf-dark);
+  }
+
+  /* Nutrition */
+  .pd-nutrition__table {
+    max-width: 760px;
+    overflow-x: auto;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--rounded-xl);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: var(--text-body-sm); }
+  .pd-nutrition__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: 16px 20px;
+    background: var(--color-surface-soft);
+    border-bottom: 1px solid var(--color-hairline);
+    font-weight: var(--weight-semibold);
+  }
+  th, td { padding: 12px 20px; border-bottom: 1px solid var(--color-hairline-soft); text-align: left; }
+  thead th { color: var(--color-steel); font-weight: var(--weight-medium); font-size: var(--text-caption); }
+  tbody th { font-weight: var(--weight-medium); }
+  tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+  .num { text-align: right; }
+  .pd-note { margin-top: var(--space-3); max-width: 760px; }
+
+  /* Cooking */
+  .pd-tip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2) var(--space-4);
+    margin-top: var(--space-6);
+    padding: var(--space-5) var(--space-6);
+    border-radius: var(--rounded-xl);
+    background: var(--color-turmeric-light);
+    color: var(--color-turmeric-dark);
+  }
+  .pd-tip strong { font-weight: var(--weight-semibold); letter-spacing: 0.5px; }
+  .pd-tip span { flex: 1 1 280px; }
+
+  @media (max-width: 767px) {
+    .pd-specs__row { grid-template-columns: 96px 1fr; }
+    .pd-ingredient { padding: 28px; }
+  }
+</style>
