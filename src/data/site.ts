@@ -12,7 +12,7 @@ export const SITE = {
   phone: '010-8144-6840',
   email: 'weonsanlee@gmail.com',
   bizNumber: '[사업자등록번호]',
-  ceo: '[대표자명]',
+  ceo: '이원산',
   // TODO: 구매처(판매 채널) URL 확정 전까지 비워둔다. 비어 있으면 FAQ의 구매처 안내로 연결된다.
   purchaseUrl: '',
 };

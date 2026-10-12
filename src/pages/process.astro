@@ -63,13 +63,67 @@ const steps: Step[] = [
   },
 ];
 
-const documents = [
-  { title: '레토르트식품 HACCP 인증', number: '[인증번호]', icon: 'shield' as const },
-  { title: '무농약 인증 쌀', number: '[인증번호]', icon: 'leaf' as const },
-  { title: '유기농 인증 찹쌀', number: '[인증번호]', icon: 'sprout' as const },
-  { title: '생산 시설', number: '가평군농업기술센터 거점농산물가공센터 즉석밥 생산 라인', icon: 'bowl' as const, image: '/images/facility/line.webp' },
+interface Doc {
+  title: string;
+  image: string;
+  alt: string;
+  kind: 'cert' | 'photo';
+  details: { label: string; value: string }[];
+}
+
+// 인증서 이미지는 개인정보(생년월일, 개인 생산자 이름·주소)를 가린 사본이다.
+const documents: Doc[] = [
+  {
+    title: '레토르트식품 HACCP 인증',
+    image: '/images/certs/haccp.webp',
+    alt: '식품안전관리인증기준(HACCP) 적용업소 인증서, 제 2026-1-0227 호',
+    kind: 'cert',
+    details: [
+      { label: '인증번호', value: '제 2026-1-0227 호' },
+      { label: '식품 종별', value: '레토르트식품(즉석조리식품)' },
+      { label: '중요관리점', value: '멸균, 금속검출' },
+      { label: '유효기간', value: '2026.05.07 ~ 2029.05.06' },
+      { label: '인증기관', value: '한국식품안전관리인증원' },
+    ],
+  },
+  {
+    title: '무농약 인증 쌀',
+    image: '/images/certs/non-pesticide.webp',
+    alt: '무농약농산물 인증서, 제 10304127 호',
+    kind: 'cert',
+    details: [
+      { label: '인증번호', value: '제 10304127 호' },
+      { label: '인증품목', value: '벼 외 1품목' },
+      { label: '생산자', value: '가평군 조종면 현리친환경단지' },
+      { label: '유효기간', value: '2025.10.11 ~ 2026.10.10' },
+      { label: '인증기관', value: '(주)케이농식품인증센터' },
+    ],
+  },
+  {
+    title: '유기농 인증 찹쌀',
+    image: '/images/certs/organic.webp',
+    alt: '유기농산물 인증서, 제 10100657 호',
+    kind: 'cert',
+    details: [
+      { label: '인증번호', value: '제 10100657 호' },
+      { label: '인증품목', value: '찰벼' },
+      { label: '생산지', value: '가평군 가평읍' },
+      { label: '유효기간', value: '2025.09.24 ~ 2026.09.23' },
+      { label: '인증기관', value: '(주)케이농식품인증센터' },
+    ],
+  },
+  {
+    title: '생산 시설',
+    image: '/images/facility/line.webp',
+    alt: '거점농산물가공센터 즉석밥 생산 라인',
+    kind: 'photo',
+    details: [
+      { label: '시설', value: '가평군농업기술센터 거점농산물가공센터' },
+      { label: '설비', value: '공유주방 즉석밥 생산 라인' },
+    ],
+  },
 ];
----
+------
 <BaseLayout
   title="안심 공정"
   description="가평의 원료부터 레토르트 HACCP 멸균, 금속검출까지. 다온한끼 건강밥이 만들어지는 과정과 인증 자료를 확인하세요."
@@ -134,15 +188,19 @@ const documents = [
       <ul class="grid-cards ps-docs" role="list">
         {documents.map((doc) => (
           <li class="ps-doc">
-            {'image' in doc && doc.image ? (
-              <img class="ps-doc__thumb ps-doc__thumb--photo" src={doc.image} alt="거점농산물가공센터 즉석밥 생산 라인" loading="lazy" decoding="async" />
-            ) : (
-              <div class="ps-doc__thumb" role="img" aria-label={`${doc.title} 이미지 자리 (실제 인증서로 교체 예정)`}>
-                <Icon name={doc.icon} size={36} />
-              </div>
-            )}
+            <a class="ps-doc__thumb-link" href={doc.image} target="_blank" rel="noopener">
+              <img class:list={['ps-doc__thumb', `ps-doc__thumb--${doc.kind}`]} src={doc.image} alt={doc.alt} loading="lazy" decoding="async" />
+              <span class="visually-hidden">(원본 이미지 새 창으로 보기)</span>
+            </a>
             <h3 class="t-heading-4">{doc.title}</h3>
-            <p class="t-body-sm"><Value value={doc.number} /></p>
+            <dl class="ps-doc__details">
+              {doc.details.map((d) => (
+                <div>
+                  <dt>{d.label}</dt>
+                  <dd><Value value={d.value} /></dd>
+                </div>
+              ))}
+            </dl>
           </li>
         ))}
       </ul>
@@ -268,15 +326,26 @@ const documents = [
     border: 1px solid var(--color-hairline-soft);
     border-radius: var(--rounded-xl);
   }
-  .ps-doc__thumb--photo { width: 100%; object-fit: cover; }
-  .ps-doc__thumb {
-    display: grid;
-    place-items: center;
-    aspect-ratio: 4 / 3;
+  .ps-doc { align-content: start; }
+  .ps-doc__thumb-link {
+    display: block;
     border-radius: var(--rounded-lg);
-    background: var(--color-surface);
-    color: var(--color-steel);
   }
+  .ps-doc__thumb {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--rounded-lg);
+    border: 1px solid var(--color-hairline-soft);
+    background: var(--color-surface);
+    object-fit: cover;
+  }
+  .ps-doc__thumb--cert { object-fit: contain; padding: var(--space-2); }
+  .ps-doc__thumb-link:hover .ps-doc__thumb { border-color: var(--color-hairline-strong); }
+  .ps-doc__details { display: grid; gap: 6px; font-size: var(--text-caption); line-height: 1.5; }
+  .ps-doc__details div { display: grid; grid-template-columns: 64px 1fr; gap: var(--space-2); }
+  .ps-doc__details dt { color: var(--color-steel); }
+  .ps-doc__details dd { color: var(--color-body-strong); }
   .ps-pdf {
     display: flex;
     flex-wrap: wrap;

@@ -12,6 +12,7 @@ npm run check    # 타입 검사
 ## 구조
 - `src/styles/tokens.css` — 디자인 토큰(CSS 변수). 색·글꼴·라운드·간격은 여기서만 정의
 - `src/data/products.json` — 제품 4종 단일 데이터 (홈·상세·비교표 공용)
+- `public/images/certs/` — HACCP·무농약·유기농 인증서 (생년월일·개인 생산자 이름·주소를 가린 사본)
 - `public/images/facility/` — 거점농산물가공센터 시설 사진 (충전 설비·레토르트 멸균기·실링·생산 라인·견학)
 - `public/images/products/{slug}/` — 제품 사진 (main·package·set·ing-0·ing-1). 지금은 기존 상세페이지 이미지에서 잘라 낸 임시 저해상도 사진
 - `src/data/site.ts` — 회사 정보, 메뉴, 구매처 링크
