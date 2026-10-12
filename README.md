@@ -12,6 +12,7 @@ npm run check    # 타입 검사
 ## 구조
 - `src/styles/tokens.css` — 디자인 토큰(CSS 변수). 색·글꼴·라운드·간격은 여기서만 정의
 - `src/data/products.json` — 제품 4종 단일 데이터 (홈·상세·비교표 공용)
+- `public/images/products/{slug}/` — 제품 사진 (main·package·set·ing-0·ing-1). 지금은 기존 상세페이지 이미지에서 잘라 낸 임시 저해상도 사진
 - `src/data/site.ts` — 회사 정보, 메뉴, 구매처 링크
 - `src/data/guides.json` — 식단 가이드 글 목록 (href 비면 준비 중)
 - `src/components/` — Nav, Footer, Button, Badge, ProductCard, StepCard, CtaBanner, FaqItem, TrustStrip, CompareTable

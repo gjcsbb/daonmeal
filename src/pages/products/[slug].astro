@@ -29,7 +29,13 @@ const specs = [
   { label: '품목보고번호', value: product.reportNumber },
 ];
 
-const gallery = ['밥', '패키지', '원료', '구성'];
+const ingredientPhoto = product.ingredientCards.find((c) => c.image === product.images.ingredient) ?? product.ingredientCards[0];
+const gallery = [
+  { label: '밥', src: product.images.main, alt: `${product.name} 한 그릇`, fit: 'cover' },
+  { label: '패키지', src: product.images.package, alt: `${product.name} 파우치 패키지`, fit: 'contain' },
+  { label: '원료', src: product.images.ingredient, alt: ingredientPhoto.name, fit: 'cover' },
+  { label: '구성', src: product.images.set, alt: `${product.name} 구성`, fit: 'contain' },
+];
 
 const anchors = [
   { href: '#ingredients', label: '원료' },
@@ -57,11 +63,24 @@ const anchors = [
     <div class="container pd-hero__inner">
       <div class="pd-gallery">
         <div class="pd-gallery__main">
-          <ProductPhoto tint={product.tint} name={product.name} />
+          <ProductPhoto tint={product.tint} name={product.name} src={gallery[0].src} alt={gallery[0].alt} eager />
         </div>
-        <ul class="pd-gallery__thumbs" role="list" aria-label="추가 사진 (준비 중)">
-          {gallery.map((label) => (
-            <li class="pd-gallery__thumb"><span role="img" aria-label={`${label} 사진 자리 (실제 사진으로 교체 예정)`}>[{label}]</span></li>
+        <ul class="pd-gallery__thumbs" role="list" aria-label="사진 고르기">
+          {gallery.map((g, i) => (
+            <li>
+              <button
+                type="button"
+                class="pd-gallery__thumb"
+                data-src={g.src}
+                data-alt={g.alt}
+                data-fit={g.fit}
+                aria-pressed={i === 0 ? 'true' : 'false'}
+                aria-label={`${g.label} 사진 보기`}
+              >
+                <img src={g.src} alt="" loading="lazy" decoding="async" style={`object-fit: ${g.fit}`} />
+                <span class="pd-gallery__label" aria-hidden="true">{g.label}</span>
+              </button>
+            </li>
           ))}
         </ul>
       </div>
@@ -113,10 +132,14 @@ const anchors = [
       <div class="grid-cards pd-ingredients">
         {product.ingredientCards.map((card) => (
           <article class={`pd-ingredient tint-${product.tint}`}>
-            <div class="pd-ingredient__photo" role="img" aria-label={`${card.name} 사진 자리 (실제 사진으로 교체 예정)`}>
-              <Icon name="sprout" size={40} />
-              <span>[{card.name} 사진]</span>
-            </div>
+            {card.image ? (
+              <img class="pd-ingredient__photo" src={card.image} alt={card.name} loading="lazy" decoding="async" />
+            ) : (
+              <div class="pd-ingredient__photo" role="img" aria-label={`${card.name} 사진 자리 (실제 사진으로 교체 예정)`}>
+                <Icon name="sprout" size={40} />
+                <span>[{card.name} 사진]</span>
+              </div>
+            )}
             <h3 class="t-heading-3">{card.name}</h3>
             <p>{card.text}</p>
           </article>
@@ -225,6 +248,20 @@ const anchors = [
   </CtaBanner>
 </BaseLayout>
 
+<script>
+  const mainImg = document.querySelector<HTMLImageElement>('.pd-gallery__main img');
+  const thumbs = document.querySelectorAll<HTMLButtonElement>('.pd-gallery__thumb');
+  thumbs.forEach((thumb) => {
+    thumb.addEventListener('click', () => {
+      if (!mainImg) return;
+      mainImg.src = thumb.dataset.src ?? mainImg.src;
+      mainImg.alt = thumb.dataset.alt ?? '';
+      mainImg.classList.toggle('is-contain', thumb.dataset.fit === 'contain');
+      thumbs.forEach((t) => t.setAttribute('aria-pressed', String(t === thumb)));
+    });
+  });
+</script>
+
 <style>
   /* Breadcrumb */
   .breadcrumb ol {
@@ -274,15 +311,32 @@ const anchors = [
     margin: 0;
   }
   .pd-gallery__thumb {
-    display: grid;
-    place-items: center;
+    position: relative;
+    display: block;
+    width: 100%;
     aspect-ratio: 1 / 1;
+    padding: 0;
+    overflow: hidden;
     border-radius: var(--rounded-lg);
     border: 1px solid var(--color-hairline-soft);
-    background: var(--color-surface);
-    color: var(--color-steel);
-    font-size: var(--text-caption);
+    background: var(--color-canvas);
+    cursor: pointer;
   }
+  .pd-gallery__thumb img { width: 100%; height: 100%; }
+  .pd-gallery__thumb[aria-pressed='true'] { border-color: var(--color-primary); box-shadow: inset 0 0 0 1px var(--color-primary); }
+  .pd-gallery__label {
+    position: absolute;
+    left: 6px;
+    bottom: 6px;
+    padding: 2px 8px;
+    border-radius: var(--rounded-full);
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-size: 12px;
+    font-weight: var(--weight-medium);
+  }
+  .pd-gallery__main :global(.product-photo) { background: var(--color-canvas); }
+  .pd-gallery__main :global(.product-photo img.is-contain) { object-fit: contain; }
 
   .pd-info { flex: 1 1 440px; display: grid; gap: var(--space-4); }
   .pd-info__badges { display: flex; flex-wrap: wrap; gap: var(--space-2); }
@@ -374,6 +428,7 @@ const anchors = [
     color: var(--tint-ink);
   }
   .pd-ingredient h3 { color: var(--color-ink); margin-top: var(--space-2); }
+  img.pd-ingredient__photo { width: 100%; object-fit: cover; }
   .pd-ingredient__photo {
     display: grid;
     place-content: center;

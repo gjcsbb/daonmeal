@@ -41,7 +41,7 @@ const tags = ['전체', ...PRODUCTS.map((p) => p.tag)];
         {PRODUCTS.map((p) => (
           <li class={`hero__photo tint-${p.tint}`}>
             <a href={`/products/${p.slug}`} class="hero__photo-link">
-              <ProductPhoto tint={p.tint} name={p.name} />
+              <ProductPhoto tint={p.tint} name={p.name} src={p.images.main} eager />
               <span class="hero__photo-name">{p.name}</span>
             </a>
           </li>

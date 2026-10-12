@@ -33,10 +33,11 @@ export interface Product {
   englishName: string;
   tag: string;
   tint: Tint;
+  images: { main: string; package: string; set: string; ingredient: string };
   summary: string;
   description: string;
   keyIngredients: string[];
-  ingredientCards: { name: string; text: string }[];
+  ingredientCards: { name: string; text: string; image?: string }[];
   recommendedFor: string[];
   ingredientsLabel: string;
   foodType: string;

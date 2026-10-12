@@ -6,7 +6,7 @@ const { product, headingLevel: H = 'h3' } = Astro.props;
 ---
 <article class={`product-card tint-${product.tint}`} data-tag={product.tag}>
   <span class="product-card__tag">{product.tag}</span>
-  <ProductPhoto tint={product.tint} name={product.name} />
+  <ProductPhoto tint={product.tint} name={product.name} src={product.images.main} />
   <div class="product-card__body">
     <H class="t-heading-3">
       <a href={`/products/${product.slug}`} class="product-card__link">{product.name}</a>
