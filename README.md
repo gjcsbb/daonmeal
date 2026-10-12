@@ -19,7 +19,7 @@ npm run check    # 타입 검사
 ## 진행 상황
 - [x] 기반(토큰·공통 컴포넌트·데이터) / 홈 `/`
 - [x] 제품 상세 `/products/[slug]` ×4 (turmeric · low-sugar · low-carb · pure-rice)
-- [ ] 안심 공정 `/process`, 브랜드 스토리 `/story`
+- [x] 안심 공정 `/process`, 브랜드 스토리 `/story`
 - [ ] 식단 가이드 `/guide`, B2B `/b2b` (폼 전송 방식 미정)
 - [ ] 개인정보 처리방침 `/privacy`
 
